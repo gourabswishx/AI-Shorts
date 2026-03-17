@@ -556,6 +556,13 @@ if "generating" not in st.session_state:
 if "pipeline_result" not in st.session_state:
     st.session_state.pipeline_result = None
 
+# Safety valve: if generation was running but the process was killed (e.g. OOM),
+# the flag stays stuck. Reset it so the app doesn't crash-loop.
+if st.session_state.generating:
+    gen_start = st.session_state.get("gen_start_time", 0)
+    if time.time() - gen_start > 600:  # 10 min max — pipeline should never take this long
+        st.session_state.generating = False
+
 is_generating = st.session_state.generating
 
 left, right = st.columns([1, 1], gap="large")
@@ -647,6 +654,7 @@ generate = st.button(
 
 if generate and not is_generating:
     st.session_state.generating = True
+    st.session_state.gen_start_time = time.time()
     st.session_state.pipeline_config = dict(
         pdf_path=pdf_path,
         profile=profile,
