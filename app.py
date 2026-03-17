@@ -197,6 +197,22 @@ label { font-family: 'Inter', sans-serif !important; }
     margin-top: 8px;
 }
 
+/* ── Hero CTA ── */
+.hero-cta {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #fd4816 0%, #d93d0f 100%);
+    color: #fff !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+.hero-cta:hover { opacity: 0.88; }
+
 /* ── Section ── */
 .section-rule {
     border: none; border-top: 1px solid #181818;
@@ -412,6 +428,7 @@ with hero_left:
         <span class="pill">Team Leaderboard</span>
         <span class="pill">Learning Analytics</span>
       </div>
+      <a href="#try-it" class="hero-cta">Try it yourself &darr;</a>
     </div>
     """, unsafe_allow_html=True)
 
@@ -508,7 +525,7 @@ for i, demo in enumerate(DEMO_VIDEOS):
 # GENERATE YOUR OWN
 # ══════════════════════════════════════════════════════════════════════════════
 
-st.markdown('<hr class="section-rule">', unsafe_allow_html=True)
+st.markdown('<hr class="section-rule" id="try-it">', unsafe_allow_html=True)
 st.markdown('<div class="s-eyebrow">Try it yourself</div>', unsafe_allow_html=True)
 st.markdown('<div class="s-title">Generate a reel from any drug PDF</div>', unsafe_allow_html=True)
 st.markdown(
