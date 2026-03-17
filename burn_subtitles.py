@@ -46,6 +46,15 @@ def _find_font(language: str = "en"):
     return None
 
 
+def _is_latin_word(word):
+    """Check if a word is Latin script (English/numbers/dosages)."""
+    alpha_chars = [c for c in word if c.isalpha()]
+    if not alpha_chars:
+        return True  # numbers, punctuation — render with Latin font
+    latin = sum(1 for c in alpha_chars if ord(c) < 256)
+    return latin > len(alpha_chars) / 2
+
+
 def _is_macos():
     return platform.system() == "Darwin"
 
@@ -237,17 +246,28 @@ def render_subtitle_box(draw, width, height):
     )
 
 
-def render_subtitle_text(draw, text, width, height, font, bold_font):
-    """Render text inside the fixed box."""
+def render_subtitle_text(draw, text, width, height, font, bold_font,
+                         latin_font=None, latin_bold_font=None):
+    """Render text inside the fixed box.
+
+    When latin_font/latin_bold_font are provided (Hindi mode), Latin-script
+    words (drug names, numbers, dosages) use those fonts instead of the
+    Devanagari font — which lacks Latin glyphs.
+    """
     box_x, box_y, box_w, box_h = get_fixed_box_dims(width, height)
 
     words = text.split()
     space_w = draw.textlength(" ", font=font)
     word_infos = []
     for word in words:
-        f = bold_font if is_highlight_word(word) else font
+        highlight = is_highlight_word(word)
+        # Pick font: Latin words get the Latin font in Hindi mode
+        if latin_font and _is_latin_word(word):
+            f = latin_bold_font if highlight else latin_font
+        else:
+            f = bold_font if highlight else font
         w = draw.textlength(word, font=f)
-        word_infos.append({"word": word, "width": w, "font": f, "highlight": is_highlight_word(word)})
+        word_infos.append({"word": word, "width": w, "font": f, "highlight": highlight})
 
     # Word wrap
     max_w = box_w - STYLE["bg_padding_x"] * 2
@@ -281,17 +301,29 @@ def render_subtitle_text(draw, text, width, height, font, bold_font):
         y += line_h
 
 
-def _generate_overlay_video_legacy(events, duration, output_path, box_ranges=None):
+def _generate_overlay_video_legacy(events, duration, output_path, box_ranges=None, language="en"):
     """Legacy: render every frame individually. Kept as fallback."""
     total_frames = int(duration * FPS)
     frame_dir = tempfile.mkdtemp(prefix="subs_")
 
+    font_path = _find_font(language) or STYLE["font_path"]
     try:
-        font = ImageFont.truetype(STYLE["font_path"], STYLE["font_size"])
-        bold_font = ImageFont.truetype(STYLE["font_path"], STYLE["bold_font_size"])
+        font = ImageFont.truetype(font_path, STYLE["font_size"])
+        bold_font = ImageFont.truetype(font_path, STYLE["bold_font_size"])
     except (OSError, IOError):
         font = ImageFont.load_default()
         bold_font = font
+
+    latin_font = None
+    latin_bold_font = None
+    if language == "hi":
+        latin_path = _find_font("en")
+        if latin_path and latin_path != font_path:
+            try:
+                latin_font = ImageFont.truetype(latin_path, STYLE["font_size"])
+                latin_bold_font = ImageFont.truetype(latin_path, STYLE["bold_font_size"])
+            except (OSError, IOError):
+                pass
 
     print(f"  [legacy] Rendering {total_frames} subtitle frames ({duration:.1f}s at {FPS}fps)...")
 
@@ -309,7 +341,8 @@ def _generate_overlay_video_legacy(events, duration, output_path, box_ranges=Non
             draw = ImageDraw.Draw(img)
             render_subtitle_box(draw, WIDTH, HEIGHT)
             if active_event:
-                render_subtitle_text(draw, active_event["text"], WIDTH, HEIGHT, font, bold_font)
+                render_subtitle_text(draw, active_event["text"], WIDTH, HEIGHT, font, bold_font,
+                                     latin_font=latin_font, latin_bold_font=latin_bold_font)
 
         img.save(f"{frame_dir}/frame_{frame_num:05d}.png")
         if frame_num % (FPS * 5) == 0:
@@ -344,6 +377,19 @@ def generate_overlay_video(events, duration, output_path, box_ranges=None, langu
     except (OSError, IOError):
         font = ImageFont.load_default()
         bold_font = font
+
+    # For Hindi: load a separate Latin font so English words don't render as □□□
+    latin_font = None
+    latin_bold_font = None
+    if language == "hi":
+        latin_path = _find_font("en")  # Helvetica on mac, DejaVu on Linux
+        if latin_path and latin_path != font_path:
+            try:
+                latin_font = ImageFont.truetype(latin_path, STYLE["font_size"])
+                latin_bold_font = ImageFont.truetype(latin_path, STYLE["bold_font_size"])
+                print(f"  Hindi dual-font: Devanagari={os.path.basename(font_path)}, Latin={os.path.basename(latin_path)}")
+            except (OSError, IOError):
+                pass
 
     # Build timeline of visual states: (start_time, end_time, state_key)
     # States: "empty", "box_only", "box_text:<phrase>"
@@ -403,7 +449,8 @@ def generate_overlay_video(events, duration, output_path, box_ranges=None, langu
             text = state_key[len("box_text:"):]
             draw = ImageDraw.Draw(img)
             render_subtitle_box(draw, WIDTH, HEIGHT)
-            render_subtitle_text(draw, text, WIDTH, HEIGHT, font, bold_font)
+            render_subtitle_text(draw, text, WIDTH, HEIGHT, font, bold_font,
+                                 latin_font=latin_font, latin_bold_font=latin_bold_font)
         # "empty" stays transparent
 
         safe_name = f"state_{abs(hash(state_key)):016x}.png"
@@ -440,7 +487,7 @@ def generate_overlay_video(events, duration, output_path, box_ranges=None, langu
         for f_path in g.glob(f"{frame_dir}/*"):
             os.remove(f_path)
         os.rmdir(frame_dir)
-        return _generate_overlay_video_legacy(events, duration, output_path, box_ranges)
+        return _generate_overlay_video_legacy(events, duration, output_path, box_ranges, language=language)
 
     # Clean up
     import glob as g
