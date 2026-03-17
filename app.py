@@ -395,7 +395,7 @@ with hero_left:
         <span class="a">Make them watch a<br>60-second reel instead.</span>
       </div>
       <p class="hero-sub">
-        Turn any drug monograph into a fun, narrated video reel — followed
+        Turn any drug PDF into a fun, narrated video reel — followed
         by a quick gamified quiz that tests understanding, ranks your
         field team, and gives you learning data at scale.
       </p>
