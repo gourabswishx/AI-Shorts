@@ -199,19 +199,35 @@ label { font-family: 'Inter', sans-serif !important; }
 
 /* ── Hero CTA ── */
 .hero-cta {
-    display: inline-block;
-    margin-top: 24px;
-    padding: 12px 28px;
-    background: linear-gradient(135deg, #fd4816 0%, #d93d0f 100%);
-    color: #fff !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    padding: 14px 36px;
+    background: transparent;
+    color: #fd4816 !important;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: 14px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: opacity 0.2s;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1.5px solid rgba(253,72,22,.35);
+    border-radius: 40px;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
 }
-.hero-cta:hover { opacity: 0.88; }
+.hero-cta:hover {
+    border-color: #fd4816;
+    background: rgba(253,72,22,.08);
+    box-shadow: 0 0 20px rgba(253,72,22,.15);
+}
+.hero-cta .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+.hero-cta:hover .arrow {
+    transform: translateY(3px);
+}
 
 /* ── Section ── */
 .section-rule {
@@ -428,7 +444,7 @@ with hero_left:
         <span class="pill">Team Leaderboard</span>
         <span class="pill">Learning Analytics</span>
       </div>
-      <a href="#try-it" class="hero-cta">Try it yourself &darr;</a>
+      <a href="#try-it" class="hero-cta">Try it yourself <span class="arrow">&darr;</span></a>
     </div>
     """, unsafe_allow_html=True)
 
