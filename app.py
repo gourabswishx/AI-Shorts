@@ -97,7 +97,7 @@ label { font-family: 'Inter', sans-serif !important; }
 
 /* ── Phone mockup ── */
 .phone-mockup {
-    width: 210px;
+    width: 280px;
     background: #000;
     border-radius: 28px;
     padding: 10px 8px;
@@ -137,19 +137,18 @@ label { font-family: 'Inter', sans-serif !important; }
     width: 100%; height: 100%;
     object-fit: cover;
     opacity: 0;
-    animation: heroSlide 15s ease-in-out infinite;
+    animation: heroSlide 12s ease-in-out infinite;
 }
 .hero-slide:nth-child(1) { animation-delay: 0s; }
 .hero-slide:nth-child(2) { animation-delay: 3s; }
 .hero-slide:nth-child(3) { animation-delay: 6s; }
 .hero-slide:nth-child(4) { animation-delay: 9s; }
-.hero-slide:nth-child(5) { animation-delay: 12s; }
 
 @keyframes heroSlide {
   0%    { opacity: 0; }
   3%    { opacity: 1; }
-  20%   { opacity: 1; }
-  23%   { opacity: 0; }
+  25%   { opacity: 1; }
+  28%   { opacity: 0; }
   100%  { opacity: 0; }
 }
 
@@ -452,7 +451,7 @@ with hero_left:
 
 with hero_right:
     slide_dir = BASE_DIR / "assets"
-    slide_files = [slide_dir / f"slide_{i}.jpg" for i in range(1, 6)]
+    slide_files = [slide_dir / f"slide_{i}.jpg" for i in range(1, 5)]
     slides_exist = all(f.exists() for f in slide_files)
     if slides_exist:
         imgs_b64 = [base64.b64encode(f.read_bytes()).decode() for f in slide_files]
