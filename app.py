@@ -105,7 +105,29 @@ label { font-family: 'Inter', sans-serif !important; }
     border-radius: 20px;
     overflow: hidden;
     position: relative;
-    aspect-ratio: 940 / 1400;
+    aspect-ratio: 1080 / 1540;
+}
+.play-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px; height: 48px;
+    background: rgba(0,0,0,.55);
+    border: 2px solid rgba(255,255,255,.85);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+}
+.play-btn::after {
+    content: '';
+    display: block;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 8px 0 8px 14px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 3px;
 }
 .hero-slide {
     position: absolute;
@@ -371,6 +393,7 @@ with hero_right:
           <div class="phone-mockup">
             <div class="phone-screen">
               {slide_tags}
+              <div class="play-btn"></div>
             </div>
           </div>
         </div>

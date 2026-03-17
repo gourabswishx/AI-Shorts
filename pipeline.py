@@ -266,20 +266,20 @@ def run_pipeline(config: PipelineConfig, on_progress: ProgressCallback | None = 
                 manifest["errors"] = errors
             frames_manifest.write_text(json.dumps(manifest, indent=2))
 
-        # Run voice + frames in parallel
-        tasks = []
+        # Run voice in background thread, frames on main thread
+        # (frames uses its own ThreadPoolExecutor for Gemini — nesting that
+        # inside another thread pool deadlocks Streamlit)
+        voice_future = None
         if need_voice:
-            tasks.append(_gen_voice)
-        if need_frames:
-            tasks.append(_gen_frames_two_phase)
+            voice_pool = ThreadPoolExecutor(max_workers=1)
+            voice_future = voice_pool.submit(_gen_voice)
 
-        if len(tasks) == 2:
-            with ThreadPoolExecutor(max_workers=2) as pool:
-                futures = [pool.submit(t) for t in tasks]
-                for f in futures:
-                    f.result()
-        elif len(tasks) == 1:
-            tasks[0]()
+        if need_frames:
+            _gen_frames_two_phase()
+
+        if voice_future:
+            voice_future.result()
+            voice_pool.shutdown(wait=False)
 
         # --- Step 4: Stitch ---
         on_progress("stitch", "Stitching video...", 0.70)
