@@ -362,6 +362,12 @@ div[data-testid="stExpander"] summary {
     font-weight: 600 !important;
     color: #ddd !important;
 }
+
+/* ── Toast notification — top-right ── */
+div[data-testid="stToast"] {
+    top: 1rem !important;
+    bottom: auto !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -765,6 +771,7 @@ if is_generating:
             file_name=Path(result["video_path"]).name,
             mime="video/mp4",
         )
+        st.toast("Your reel is ready!", icon="🎬")
     else:
         video_area.error("Generation completed but no video was produced.")
 
