@@ -93,6 +93,37 @@ label { font-family: 'Inter', sans-serif !important; }
 ::-webkit-scrollbar-track { background: #0a0a0a; }
 ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
 
+/* ── Phone mockup ── */
+.phone-mockup {
+    width: 210px;
+    background: #000;
+    border-radius: 28px;
+    padding: 10px 8px;
+    box-shadow: 0 24px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
+}
+.phone-screen {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+.play-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px; height: 56px;
+    background: rgba(0,0,0,.55);
+    border: 2px solid rgba(255,255,255,.25);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    padding-left: 3px;
+    backdrop-filter: blur(4px);
+    transition: transform .2s, background .2s;
+}
+.play-btn:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: rgba(253,72,22,.7);
+}
+
 /* ── Logo ── */
 .swx-logo {
     font-family: 'Montserrat', sans-serif;
@@ -303,20 +334,19 @@ with hero_left:
     <div style="padding-top:.8rem;">
       <div class="hero-eyebrow">Pharma L&D, reimagined</div>
       <div class="hero-title">
-        Nobody reads a<br>40-page monograph.<br>
-        <span class="a">Make them watch<br>a 60-second reel.</span>
+        Nobody reads a<br>40-page PDF.<br>
+        <span class="a">Make them watch a<br>60-second reel instead.</span>
       </div>
       <p class="hero-sub">
-        Upload any drug PDF — get a gamified video reel with
-        AI narration, quiz questions, score celebrations, and
-        peer leaderboards. Ready in under 5 minutes.
+        Turn any drug monograph into a fun, narrated video reel — followed
+        by a quick gamified quiz that tests understanding, ranks your
+        field team, and gives you learning data at scale.
       </p>
       <div class="hero-pills">
-        <span class="pill">AI Narration</span>
-        <span class="pill">Quiz MCQs</span>
-        <span class="pill">Score + Streaks</span>
-        <span class="pill">Leaderboard</span>
-        <span class="pill">9:16 Vertical</span>
+        <span class="pill">AI-Narrated Reels</span>
+        <span class="pill">Gamified Quizzes</span>
+        <span class="pill">Team Leaderboard</span>
+        <span class="pill">Learning Analytics</span>
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -326,21 +356,15 @@ with hero_right:
         img_b64 = base64.b64encode(HERO_FRAME.read_bytes()).decode()
         st.markdown(f"""
         <div style="display:flex; justify-content:center; padding-top:0.5rem;">
-          <div style="
-            width: 220px;
-            background: #000;
-            border-radius: 28px;
-            padding: 10px 8px;
-            box-shadow: 0 24px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
-          ">
-            <div style="border-radius: 20px; overflow: hidden;">
-              <img src="data:image/jpeg;base64,{img_b64}"
-                   style="width:100%; display:block;" />
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              <img src="data:image/jpeg;base64,{img_b64}" style="width:100%; display:block;" />
+              <div class="play-btn">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
             </div>
-            <div style="
-              text-align:center; padding-top:8px;
-              font-family:'Inter',sans-serif; font-size:10px; color:#444;
-            ">▶ &nbsp;AllerDuo — Intro reel</div>
           </div>
         </div>
         """, unsafe_allow_html=True)
