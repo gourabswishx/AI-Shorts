@@ -92,19 +92,15 @@ def concat_audio_files(file_list: list, out_path: str):
 def generate_voiceover(script_path: str, voice_key: str = "gaurav") -> str:
     import shutil
     if not shutil.which("ffmpeg"):
-        print("Error: ffmpeg not found. Install with: brew install ffmpeg")
-        sys.exit(1)
+        raise RuntimeError("ffmpeg not found. Install with: brew install ffmpeg (or add to packages.txt for Streamlit Cloud)")
 
     api_key = os.environ.get("ELEVENLABS_API_KEY")
     if not api_key:
-        print("Error: Set ELEVENLABS_API_KEY env var")
-        sys.exit(1)
+        raise RuntimeError("ELEVENLABS_API_KEY env var not set")
 
     voice = VOICES.get(voice_key)
     if not voice:
-        print(f"Unknown voice: {voice_key}")
-        print(f"Options: {', '.join(VOICES.keys())}")
-        sys.exit(1)
+        raise RuntimeError(f"Unknown voice: {voice_key}. Options: {', '.join(VOICES.keys())}")
 
     with open(script_path) as f:
         script = json.load(f)
