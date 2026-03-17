@@ -82,7 +82,7 @@ div[data-testid="stVerticalBlock"] {
 }
 
 div[data-testid="stMainBlockContainer"] {
-    max-width: 1080px;
+    max-width: 1200px;
     padding: 1.5rem 2rem 4rem;
 }
 
@@ -102,7 +102,9 @@ label { font-family: 'Inter', sans-serif !important; }
     border-radius: 28px;
     padding: 10px 8px;
     box-shadow: 0 24px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
+    transition: transform .3s ease;
 }
+.phone-mockup:hover { transform: scale(1.02); }
 .phone-screen {
     border-radius: 20px;
     overflow: hidden;
@@ -113,7 +115,7 @@ label { font-family: 'Inter', sans-serif !important; }
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 48px; height: 48px;
+    width: 56px; height: 56px;
     background: rgba(0,0,0,.55);
     border: 2px solid rgba(255,255,255,.85);
     border-radius: 50%;
@@ -127,7 +129,7 @@ label { font-family: 'Inter', sans-serif !important; }
     display: block;
     width: 0; height: 0;
     border-style: solid;
-    border-width: 8px 0 8px 14px;
+    border-width: 10px 0 10px 16px;
     border-color: transparent transparent transparent #fff;
     margin-left: 3px;
 }
@@ -158,7 +160,7 @@ label { font-family: 'Inter', sans-serif !important; }
     font-size: 1.5rem; font-weight: 900;
     color: #fd4816; padding: 6px 0;
 }
-.top-rule { border: none; border-top: 1px solid #181818; margin: .6rem 0 0; }
+.top-rule { border: none; border-top: 1px solid #222; margin: .6rem 0 0; }
 
 /* ── Hero ── */
 .hero-eyebrow {
@@ -175,7 +177,7 @@ label { font-family: 'Inter', sans-serif !important; }
 .hero-title .a { color: #fd4816; }
 .hero-sub {
     font-family: 'Inter', sans-serif;
-    font-size: 15px; color: #666; line-height: 1.7;
+    font-size: 15px; color: #888; line-height: 1.7;
 }
 .hero-pills {
     display: flex; flex-wrap: wrap; gap: 8px;
@@ -232,7 +234,7 @@ label { font-family: 'Inter', sans-serif !important; }
 
 /* ── Section ── */
 .section-rule {
-    border: none; border-top: 1px solid #181818;
+    border: none; border-top: 1px solid #222;
     margin: 3rem 0 2.5rem;
 }
 .s-eyebrow {
@@ -248,7 +250,7 @@ label { font-family: 'Inter', sans-serif !important; }
 }
 .s-sub {
     font-family: 'Inter', sans-serif;
-    font-size: 13px; color: #555; margin-bottom: 1.6rem;
+    font-size: 13px; color: #777; margin-bottom: 1.6rem;
 }
 
 /* ── Feature cards ── */
@@ -258,9 +260,9 @@ label { font-family: 'Inter', sans-serif !important; }
     border-radius: 12px;
     padding: 1.3rem 1.2rem;
     height: 100%;
-    transition: border-color .25s;
+    transition: border-color .25s, transform .25s, box-shadow .25s;
 }
-.feat-card:hover { border-color: #2a2a2a; }
+.feat-card:hover { border-color: #2a2a2a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
 .feat-icon {
     font-size: 1.6rem;
     margin-bottom: 10px;
@@ -272,7 +274,7 @@ label { font-family: 'Inter', sans-serif !important; }
 }
 .feat-desc {
     font-family: 'Inter', sans-serif;
-    font-size: 12px; color: #555; line-height: 1.6;
+    font-size: 12px; color: #777; line-height: 1.6;
 }
 
 /* ── Video cards ── */
@@ -286,7 +288,7 @@ label { font-family: 'Inter', sans-serif !important; }
 }
 .vid-comp {
     font-family: 'Inter', sans-serif;
-    font-size: 11px; color: #444;
+    font-size: 11px; color: #666;
 }
 .t-badge {
     display: inline-block; padding: 2px 9px;
@@ -311,8 +313,8 @@ div[data-testid="stFileUploader"] > div {
 }
 div[data-testid="stFileUploader"] p { color: #444 !important; }
 .stRadio > div { gap: 1rem !important; }
-.stRadio label p { color: #999 !important; font-size: 13px !important; }
-.stCheckbox label p { color: #999 !important; }
+.stRadio label p { color: #bbb !important; font-size: 13px !important; }
+.stCheckbox label p { color: #bbb !important; }
 
 /* ── Buttons ── */
 div[data-testid="stButton"] > button[kind="primary"] {
@@ -321,7 +323,8 @@ div[data-testid="stButton"] > button[kind="primary"] {
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 700 !important; font-size: 15px !important;
     padding: 14px 32px !important; border-radius: 8px !important;
-    transition: opacity .2s !important;
+    box-shadow: 0 4px 20px rgba(253,72,22,.3) !important;
+    transition: opacity .2s, box-shadow .2s !important;
 }
 div[data-testid="stButton"] > button[kind="primary"]:hover   { opacity: .88 !important; }
 div[data-testid="stButton"] > button[kind="primary"]:disabled { opacity: .3 !important; }
@@ -331,6 +334,17 @@ div[data-testid="stDownloadButton"] > button {
     border: 1px solid #fd4816 !important; border-radius: 8px !important;
     font-family: 'Montserrat', sans-serif !important; font-weight: 600 !important;
     width: 100% !important;
+}
+
+div[data-testid="stButton"] > button[kind="secondary"] {
+    background: transparent !important; color: #fd4816 !important;
+    border: 1px solid rgba(253,72,22,.4) !important; border-radius: 8px !important;
+    font-family: 'Montserrat', sans-serif !important; font-weight: 600 !important;
+    transition: all .2s !important;
+}
+div[data-testid="stButton"] > button[kind="secondary"]:hover {
+    border-color: #fd4816 !important;
+    background: rgba(253,72,22,.08) !important;
 }
 
 /* ── Progress ── */
@@ -381,6 +395,9 @@ div[data-testid="stProgress"] > div       { background: #1a1a1a !important; }
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
 }
+
+/* ── Video cards ── */
+video { border-radius: 10px; }
 
 /* ── Alerts ── */
 div[data-testid="stAlert"] { border-radius: 8px !important; }
@@ -599,7 +616,7 @@ with left:
             st.info("No sample PDFs available")
 
     st.markdown("<div style='height:.8rem'></div>", unsafe_allow_html=True)
-    st.markdown('<div class="form-label">③ Focus (optional)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="form-label">② Focus (optional)</div>', unsafe_allow_html=True)
     guidance = st.text_area(
         "focus", label_visibility="collapsed",
         placeholder="e.g. Emphasise pain relief for elderly patients",
@@ -608,7 +625,7 @@ with left:
     )
 
 with right:
-    st.markdown('<div class="form-label">② Configure</div>', unsafe_allow_html=True)
+    st.markdown('<div class="form-label">③ Configure</div>', unsafe_allow_html=True)
 
     profile = st.selectbox(
         "Audience",
@@ -851,7 +868,8 @@ elif st.session_state.pipeline_result is not None:
 # ══════════════════════════════════════════════════════════════════════════════
 
 st.markdown("""
-<div style="text-align:center; padding:3rem 0 1rem; font-size:11px; color:#1e1e1e;
+<hr style="border:none; border-top:1px solid #222; margin:3rem 0 0;">
+<div style="text-align:center; padding:1.5rem 0 1rem; font-size:11px; color:#333;
             font-family:'Montserrat',sans-serif; letter-spacing:.5px;">
   SwishX © 2026
 </div>
