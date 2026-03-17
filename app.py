@@ -827,7 +827,7 @@ elif st.session_state.pipeline_result is not None:
             st.rerun()
     elif result.get("video_path") and os.path.exists(result["video_path"]):
         st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
-        out_left, out_right = st.columns([1.2, 1], gap="large")
+        _pad_l, out_left, _gap, out_right, _pad_r = st.columns([0.5, 1, 0.3, 1.2, 0.5], gap="small")
         with out_left:
             st.video(result["video_path"])
             st.download_button(
