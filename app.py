@@ -78,7 +78,7 @@ div[data-testid="stStatusWidget"] { display: none !important; }
 div[data-testid="stAppViewContainer"],
 div[data-testid="stMain"],
 div[data-testid="stVerticalBlock"] {
-    background-color: #0a0a0a !important;
+    background-color: #ffffff !important;
 }
 
 div[data-testid="stMainBlockContainer"] {
@@ -92,8 +92,8 @@ div[data-testid="stMarkdownContainer"] li,
 label { font-family: 'Inter', sans-serif !important; }
 
 ::-webkit-scrollbar       { width: 4px; }
-::-webkit-scrollbar-track { background: #0a0a0a; }
-::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+::-webkit-scrollbar-track { background: #ffffff; }
+::-webkit-scrollbar-thumb { background: #d0d0d0; border-radius: 2px; }
 
 /* ── Phone mockup ── */
 .phone-mockup {
@@ -101,7 +101,7 @@ label { font-family: 'Inter', sans-serif !important; }
     background: #000;
     border-radius: 28px;
     padding: 10px 8px;
-    box-shadow: 0 24px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
+    box-shadow: 0 24px 80px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.08);
     transition: transform .3s ease;
 }
 .phone-mockup:hover { transform: scale(1.02); }
@@ -160,7 +160,7 @@ label { font-family: 'Inter', sans-serif !important; }
     font-size: 1.5rem; font-weight: 900;
     color: #fd4816; padding: 6px 0;
 }
-.top-rule { border: none; border-top: 1px solid #222; margin: .6rem 0 0; }
+.top-rule { border: none; border-top: 1px solid #e5e5e5; margin: .6rem 0 0; }
 
 /* ── Hero ── */
 .hero-eyebrow {
@@ -172,12 +172,12 @@ label { font-family: 'Inter', sans-serif !important; }
 .hero-title {
     font-family: 'Montserrat', sans-serif;
     font-size: 2.2rem; font-weight: 900; line-height: 1.15;
-    color: #fff; margin: 0 0 18px;
+    color: #111111; margin: 0 0 18px;
 }
 .hero-title .a { color: #fd4816; }
 .hero-sub {
     font-family: 'Inter', sans-serif;
-    font-size: 15px; color: #888; line-height: 1.7;
+    font-size: 15px; color: #666666; line-height: 1.7;
 }
 .hero-pills {
     display: flex; flex-wrap: wrap; gap: 8px;
@@ -194,7 +194,7 @@ label { font-family: 'Inter', sans-serif !important; }
 }
 .hero-video-label {
     font-family: 'Inter', sans-serif;
-    font-size: 11px; color: #444;
+    font-size: 11px; color: #999999;
     text-align: center;
     margin-top: 8px;
 }
@@ -222,7 +222,7 @@ label { font-family: 'Inter', sans-serif !important; }
 .hero-cta:hover {
     border-color: #fd4816;
     background: rgba(253,72,22,.08);
-    box-shadow: 0 0 20px rgba(253,72,22,.15);
+    box-shadow: 0 0 20px rgba(253,72,22,.1);
 }
 .hero-cta .arrow {
     display: inline-block;
@@ -234,7 +234,7 @@ label { font-family: 'Inter', sans-serif !important; }
 
 /* ── Section ── */
 .section-rule {
-    border: none; border-top: 1px solid #222;
+    border: none; border-top: 1px solid #e5e5e5;
     margin: 3rem 0 2.5rem;
 }
 .s-eyebrow {
@@ -246,23 +246,23 @@ label { font-family: 'Inter', sans-serif !important; }
 .s-title {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.3rem; font-weight: 700;
-    color: #fff; margin-bottom: 6px;
+    color: #111111; margin-bottom: 6px;
 }
 .s-sub {
     font-family: 'Inter', sans-serif;
-    font-size: 13px; color: #777; margin-bottom: 1.6rem;
+    font-size: 13px; color: #666666; margin-bottom: 1.6rem;
 }
 
 /* ── Feature cards ── */
 .feat-card {
-    background: #111;
-    border: 1px solid #1a1a1a;
+    background: #f7f7f8;
+    border: 1px solid #e8e8e8;
     border-radius: 12px;
     padding: 1.3rem 1.2rem;
     height: 100%;
     transition: border-color .25s, transform .25s, box-shadow .25s;
 }
-.feat-card:hover { border-color: #2a2a2a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+.feat-card:hover { border-color: #d0d0d0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
 .feat-icon {
     font-size: 1.6rem;
     margin-bottom: 10px;
@@ -270,11 +270,11 @@ label { font-family: 'Inter', sans-serif !important; }
 .feat-title {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700; font-size: 14px;
-    color: #eee; margin-bottom: 6px;
+    color: #1a1a1a; margin-bottom: 6px;
 }
 .feat-desc {
     font-family: 'Inter', sans-serif;
-    font-size: 12px; color: #777; line-height: 1.6;
+    font-size: 12px; color: #666666; line-height: 1.6;
 }
 
 /* ── Video cards ── */
@@ -284,11 +284,11 @@ label { font-family: 'Inter', sans-serif !important; }
 }
 .vid-drug {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 700; font-size: 13px; color: #ccc;
+    font-weight: 700; font-size: 13px; color: #333333;
 }
 .vid-comp {
     font-family: 'Inter', sans-serif;
-    font-size: 11px; color: #666;
+    font-size: 11px; color: #777777;
 }
 .t-badge {
     display: inline-block; padding: 2px 9px;
@@ -304,17 +304,17 @@ label { font-family: 'Inter', sans-serif !important; }
     color: #fd4816; margin-bottom: 8px; margin-top: 4px;
 }
 div[data-baseweb="select"] > div {
-    background: #111 !important; border-color: #222 !important; color: #ccc !important;
+    background: #f7f7f8 !important; border-color: #e5e5e5 !important; color: #333333 !important;
 }
-div[data-baseweb="select"] svg { fill: #444 !important; }
-textarea { background: #111 !important; border-color: #222 !important; color: #bbb !important; }
+div[data-baseweb="select"] svg { fill: #999999 !important; }
+textarea { background: #f7f7f8 !important; border-color: #e5e5e5 !important; color: #444444 !important; }
 div[data-testid="stFileUploader"] > div {
-    background: #111 !important; border: 1px dashed #222 !important; border-radius: 8px !important;
+    background: #f7f7f8 !important; border: 1px dashed #e5e5e5 !important; border-radius: 8px !important;
 }
-div[data-testid="stFileUploader"] p { color: #444 !important; }
+div[data-testid="stFileUploader"] p { color: #999999 !important; }
 .stRadio > div { gap: 1rem !important; }
-.stRadio label p { color: #bbb !important; font-size: 13px !important; }
-.stCheckbox label p { color: #bbb !important; }
+.stRadio label p { color: #444444 !important; font-size: 13px !important; }
+.stCheckbox label p { color: #444444 !important; }
 
 /* ── Buttons ── */
 div[data-testid="stButton"] > button[kind="primary"] {
@@ -323,7 +323,7 @@ div[data-testid="stButton"] > button[kind="primary"] {
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 700 !important; font-size: 15px !important;
     padding: 14px 32px !important; border-radius: 8px !important;
-    box-shadow: 0 4px 20px rgba(253,72,22,.3) !important;
+    box-shadow: 0 4px 20px rgba(253,72,22,.2) !important;
     transition: opacity .2s, box-shadow .2s !important;
 }
 div[data-testid="stButton"] > button[kind="primary"]:hover   { opacity: .88 !important; }
@@ -349,12 +349,12 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
 
 /* ── Progress ── */
 div[data-testid="stProgress"] > div > div { background: #fd4816 !important; }
-div[data-testid="stProgress"] > div       { background: #1a1a1a !important; }
+div[data-testid="stProgress"] > div       { background: #e8e8e8 !important; }
 
 .p-step         { font-family:'Inter',sans-serif; font-size:13px; padding:4px 0; }
-.p-step.waiting { color:#2a2a2a; }
+.p-step.waiting { color:#d0d0d0; }
 .p-step.active  { color:#fd4816; animation: stepPulse 1.8s ease-in-out infinite; }
-.p-step.done    { color:#22c55e; }
+.p-step.done    { color:#16a34a; }
 
 @keyframes stepPulse {
   0%,100% { opacity:1; }
@@ -370,8 +370,8 @@ div[data-testid="stProgress"] > div       { background: #1a1a1a !important; }
 
 /* ── Loading skeleton ── */
 .video-skeleton {
-    background: #111;
-    border: 1px solid #1a1a1a;
+    background: #f7f7f8;
+    border: 1px solid #e8e8e8;
     border-radius: 12px;
     padding: 3rem 1.5rem;
     text-align: center;
@@ -389,7 +389,7 @@ div[data-testid="stProgress"] > div       { background: #1a1a1a !important; }
 .video-skeleton .skeleton-text {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
-    color: #444;
+    color: #999999;
 }
 @keyframes skeletonPulse {
     0%, 100% { opacity: 1; }
@@ -404,14 +404,14 @@ div[data-testid="stAlert"] { border-radius: 8px !important; }
 
 /* ── Expander ── */
 div[data-testid="stExpander"] {
-    background: #111 !important;
-    border: 1px solid #1a1a1a !important;
+    background: #f7f7f8 !important;
+    border: 1px solid #e8e8e8 !important;
     border-radius: 10px !important;
 }
 div[data-testid="stExpander"] summary {
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 600 !important;
-    color: #ddd !important;
+    color: #222222 !important;
 }
 
 /* ── Toast notification — top-right ── */
@@ -745,21 +745,21 @@ if is_generating:
         remaining = max(0, TOTAL_ESTIMATE - elapsed)
         pct_i = int(min(pct, 1.0) * 100)
         status_box.markdown(f"""
-        <div style="background:#111; border:1px solid #1e1e1e; border-left:3px solid #fd4816;
+        <div style="background:#f7f7f8; border:1px solid #e5e5e5; border-left:3px solid #fd4816;
                     border-radius:10px; padding:1.1rem 1.3rem; margin-bottom:.3rem;">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:.5rem;">
             <div>
-              <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; color:#fff; margin-bottom:5px;">
+              <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; color:#111111; margin-bottom:5px;">
                 <span class="spin-dot">⏳</span>&nbsp; {label}
               </div>
-              <div style="font-family:'Inter',sans-serif; font-size:13px; color:#666; max-width:460px;">
+              <div style="font-family:'Inter',sans-serif; font-size:13px; color:#777777; max-width:460px;">
                 {desc}
               </div>
             </div>
             <div style="text-align:right; flex-shrink:0;">
               <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.1rem; color:#fd4816;">{pct_i}%</div>
-              <div style="font-family:'Inter',sans-serif; font-size:11px; color:#333; margin-top:2px;">{_ft(elapsed)} elapsed</div>
-              <div style="font-family:'Inter',sans-serif; font-size:11px; color:#333; margin-top:1px;">~{_ft(remaining)} remaining</div>
+              <div style="font-family:'Inter',sans-serif; font-size:11px; color:#aaaaaa; margin-top:2px;">{_ft(elapsed)} elapsed</div>
+              <div style="font-family:'Inter',sans-serif; font-size:11px; color:#aaaaaa; margin-top:1px;">~{_ft(remaining)} remaining</div>
             </div>
           </div>
         </div>
@@ -770,7 +770,7 @@ if is_generating:
             el = time.time() - step_start[0]
             lbl = STEP_META.get(cur_step[0], (cur_step[0],))[0]
             step_ui[cur_step[0]].markdown(
-                f'<div class="p-step done">✓ {lbl} <span style="color:#222;font-size:11px">({_ft(el)})</span></div>',
+                f'<div class="p-step done">✓ {lbl} <span style="color:#cccccc;font-size:11px">({_ft(el)})</span></div>',
                 unsafe_allow_html=True,
             )
         if cur_step[0] != step:
@@ -791,25 +791,25 @@ if is_generating:
         el = time.time() - step_start[0]
         lbl = STEP_META.get(cur_step[0], (cur_step[0],))[0]
         step_ui[cur_step[0]].markdown(
-            f'<div class="p-step done">✓ {lbl} <span style="color:#222;font-size:11px">({_ft(el)})</span></div>',
+            f'<div class="p-step done">✓ {lbl} <span style="color:#cccccc;font-size:11px">({_ft(el)})</span></div>',
             unsafe_allow_html=True,
         )
     progress_bar.progress(1.0)
     total = time.time() - run_start
 
     status_box.markdown(f"""
-    <div style="background:#0a150d; border:1px solid #153020; border-left:3px solid #22c55e;
+    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:3px solid #16a34a;
                 border-radius:10px; padding:1.1rem 1.3rem; margin-bottom:.3rem;">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem;">
         <div>
-          <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; color:#22c55e; margin-bottom:3px;">
+          <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; color:#16a34a; margin-bottom:3px;">
             ✓ &nbsp;Your reel is ready
           </div>
-          <div style="font-family:'Inter',sans-serif; font-size:13px; color:#444;">
+          <div style="font-family:'Inter',sans-serif; font-size:13px; color:#999999;">
             Generated in {_ft(total)}
           </div>
         </div>
-        <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.1rem; color:#22c55e;">100%</div>
+        <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.1rem; color:#16a34a;">100%</div>
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -838,12 +838,12 @@ elif st.session_state.pipeline_result is not None:
             )
         with out_right:
             st.markdown("""
-            <div style="background:#0a150d; border:1px solid #153020; border-left:3px solid #22c55e;
+            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:3px solid #16a34a;
                         border-radius:10px; padding:1.1rem 1.3rem;">
-              <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; color:#22c55e; margin-bottom:3px;">
+              <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; color:#16a34a; margin-bottom:3px;">
                 ✓ &nbsp;Your reel is ready
               </div>
-              <div style="font-family:'Inter',sans-serif; font-size:13px; color:#444;">
+              <div style="font-family:'Inter',sans-serif; font-size:13px; color:#999999;">
                 Download this reel before generating another — it will be replaced.
               </div>
             </div>
@@ -864,8 +864,8 @@ elif st.session_state.pipeline_result is not None:
 # ══════════════════════════════════════════════════════════════════════════════
 
 st.markdown("""
-<hr style="border:none; border-top:1px solid #222; margin:3rem 0 0;">
-<div style="text-align:center; padding:1.5rem 0 1rem; font-size:11px; color:#333;
+<hr style="border:none; border-top:1px solid #e5e5e5; margin:3rem 0 0;">
+<div style="text-align:center; padding:1.5rem 0 1rem; font-size:11px; color:#aaaaaa;
             font-family:'Montserrat',sans-serif; letter-spacing:.5px;">
   SwishX © 2026
 </div>

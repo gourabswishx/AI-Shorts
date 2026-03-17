@@ -4,9 +4,9 @@ maxMessageSize = 400
 enableWebsocketCompression = true
 
 [theme]
-base                     = "dark"
+base                     = "light"
 primaryColor             = "#fd4816"
-backgroundColor          = "#0d0d0d"
-secondaryBackgroundColor = "#141414"
-textColor                = "#e0e0e0"
+backgroundColor          = "#ffffff"
+secondaryBackgroundColor = "#f7f7f8"
+textColor                = "#1a1a1a"
 font                     = "sans serif"
