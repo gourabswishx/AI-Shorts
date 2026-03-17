@@ -63,6 +63,12 @@ def load_topic_prompt(topic: str) -> str:
     return topics.get(topic, topics["intro"])
 
 
+def load_topic_map(profile: str) -> list[dict]:
+    """Return topic list for a profile: [{"key": "intro", "label": "Product Pitch"}, ...]"""
+    topic_map = _load_json("topic_map.json")
+    return topic_map.get(profile, topic_map["doctor"])
+
+
 # --- Script outline (two-phase) ---
 def load_script_outline_system_prompt() -> str:
     return _load_text("script_outline_system.txt")

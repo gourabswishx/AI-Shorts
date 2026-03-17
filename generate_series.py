@@ -30,6 +30,8 @@ from concurrent.futures import ThreadPoolExecutor
 from dotenv import load_dotenv
 load_dotenv()
 
+from config_loader import load_topic_map
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -127,14 +129,21 @@ def main():
         analysis = json.load(f)
 
     product = analysis.get("product_name", base_name)
-    topics = analysis.get("recommended_reel_order", [])
+    all_topics = analysis.get("recommended_reel_order", [])
 
-    if not topics:
+    if not all_topics:
         print("No topics found in analysis. Nothing to generate.")
         sys.exit(0)
 
+    # Filter topics to only those relevant for this profile
+    allowed_keys = {t["key"] for t in load_topic_map(profile)}
+    topics = [t for t in all_topics if t in allowed_keys]
+    skipped = [t for t in all_topics if t not in allowed_keys]
+
     print(f"\n  Product: {product}")
     print(f"  Topics to generate: {', '.join(topics)} ({len(topics)} reels)")
+    if skipped:
+        print(f"  Skipped (not relevant for {profile}): {', '.join(skipped)}")
 
     # ── Generate each reel ──
     results = []

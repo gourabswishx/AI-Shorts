@@ -22,6 +22,7 @@ except Exception:
     pass
 
 from pipeline import PipelineConfig, run_pipeline
+from config_loader import load_topic_map
 
 BASE_DIR  = Path(__file__).parent
 PDFS_DIR  = BASE_DIR / "pdfs"
@@ -615,17 +616,13 @@ with right:
         }[x],
         disabled=is_generating,
     )
+    topic_entries = load_topic_map(profile)
+    topic_keys = [t["key"] for t in topic_entries]
+    topic_labels = {t["key"]: t["label"] for t in topic_entries}
     topic = st.selectbox(
         "Topic",
-        ["intro", "indications", "mechanism", "dosage_safety", "interactions", "side_effects"],
-        format_func=lambda x: {
-            "intro":         "Product Intro",
-            "indications":   "Indications",
-            "mechanism":     "Mechanism of Action",
-            "dosage_safety": "Dosage & Safety",
-            "interactions":  "Drug Interactions",
-            "side_effects":  "Side Effects",
-        }[x],
+        topic_keys,
+        format_func=lambda x: topic_labels[x],
         disabled=is_generating,
     )
     voice_map = {

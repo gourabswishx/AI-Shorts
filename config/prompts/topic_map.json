@@ -1,0 +1,36 @@
+{
+  "doctor": [
+    {"key": "intro",         "label": "Product Introduction"},
+    {"key": "indications",   "label": "Indications"},
+    {"key": "mechanism",     "label": "Mechanism of Action"},
+    {"key": "dosage_safety", "label": "Dosage & Safety"},
+    {"key": "interactions",  "label": "Drug Interactions"},
+    {"key": "side_effects",  "label": "Side Effects"}
+  ],
+  "stockist": [
+    {"key": "intro",         "label": "Product Overview"},
+    {"key": "indications",   "label": "Market & Demand"},
+    {"key": "dosage_safety", "label": "Storage & Handling"},
+    {"key": "side_effects",  "label": "Customer Queries"}
+  ],
+  "retailer": [
+    {"key": "intro",         "label": "Product Basics"},
+    {"key": "indications",   "label": "What It Treats"},
+    {"key": "dosage_safety", "label": "Dosage & Dispensing"},
+    {"key": "side_effects",  "label": "Side Effects & Counseling"}
+  ],
+  "sales_executive": [
+    {"key": "intro",         "label": "Product Pitch"},
+    {"key": "indications",   "label": "Key Indications"},
+    {"key": "dosage_safety", "label": "Competitive Advantages"},
+    {"key": "side_effects",  "label": "Objection Handling"}
+  ],
+  "all": [
+    {"key": "intro",         "label": "Product Intro"},
+    {"key": "indications",   "label": "Indications"},
+    {"key": "mechanism",     "label": "Mechanism of Action"},
+    {"key": "dosage_safety", "label": "Dosage & Safety"},
+    {"key": "interactions",  "label": "Drug Interactions"},
+    {"key": "side_effects",  "label": "Side Effects"}
+  ]
+}
