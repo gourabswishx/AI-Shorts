@@ -202,7 +202,8 @@ label { font-family: 'Inter', sans-serif !important; }
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-top: 28px;
+    margin-top: 24px;
+    margin-bottom: 4px;
     padding: 14px 36px;
     background: transparent;
     color: #fd4816 !important;
@@ -438,13 +439,13 @@ with hero_left:
         by a quick gamified quiz that tests understanding, ranks your
         field team, and gives you learning data at scale.
       </p>
+      <a href="#try-it" class="hero-cta">Try it yourself <span class="arrow">&darr;</span></a>
       <div class="hero-pills">
         <span class="pill">AI-Narrated Reels</span>
         <span class="pill">Gamified Quizzes</span>
         <span class="pill">Team Leaderboard</span>
         <span class="pill">Learning Analytics</span>
       </div>
-      <a href="#try-it" class="hero-cta">Try it yourself <span class="arrow">&darr;</span></a>
     </div>
     """, unsafe_allow_html=True)
 
