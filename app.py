@@ -105,23 +105,28 @@ label { font-family: 'Inter', sans-serif !important; }
     border-radius: 20px;
     overflow: hidden;
     position: relative;
+    aspect-ratio: 940 / 1400;
 }
-.play-btn {
+.hero-slide {
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 56px; height: 56px;
-    background: rgba(0,0,0,.55);
-    border: 2px solid rgba(255,255,255,.25);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    padding-left: 3px;
-    backdrop-filter: blur(4px);
-    transition: transform .2s, background .2s;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: heroSlide 15s ease-in-out infinite;
 }
-.play-btn:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-    background: rgba(253,72,22,.7);
+.hero-slide:nth-child(1) { animation-delay: 0s; }
+.hero-slide:nth-child(2) { animation-delay: 3s; }
+.hero-slide:nth-child(3) { animation-delay: 6s; }
+.hero-slide:nth-child(4) { animation-delay: 9s; }
+.hero-slide:nth-child(5) { animation-delay: 12s; }
+
+@keyframes heroSlide {
+  0%    { opacity: 0; }
+  3%    { opacity: 1; }
+  20%   { opacity: 1; }
+  23%   { opacity: 0; }
+  100%  { opacity: 0; }
 }
 
 /* ── Logo ── */
@@ -352,18 +357,20 @@ with hero_left:
     """, unsafe_allow_html=True)
 
 with hero_right:
-    if HERO_FRAME.exists():
-        img_b64 = base64.b64encode(HERO_FRAME.read_bytes()).decode()
+    slide_dir = BASE_DIR / "assets"
+    slide_files = [slide_dir / f"slide_{i}.jpg" for i in range(1, 6)]
+    slides_exist = all(f.exists() for f in slide_files)
+    if slides_exist:
+        imgs_b64 = [base64.b64encode(f.read_bytes()).decode() for f in slide_files]
+        slide_tags = "\n".join(
+            f'<img class="hero-slide" src="data:image/jpeg;base64,{b}" />'
+            for b in imgs_b64
+        )
         st.markdown(f"""
         <div style="display:flex; justify-content:center; padding-top:0.5rem;">
           <div class="phone-mockup">
             <div class="phone-screen">
-              <img src="data:image/jpeg;base64,{img_b64}" style="width:100%; display:block;" />
-              <div class="play-btn">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              </div>
+              {slide_tags}
             </div>
           </div>
         </div>
@@ -527,14 +534,16 @@ with right:
     mode = "demo" if include_quiz else "production"
 
 st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
+is_generating = st.session_state.get("generating", False)
 generate = st.button(
-    "⚡  Generate Video Reel",
+    "⚡  Generating…" if is_generating else "⚡  Generate Video Reel",
     type="primary",
-    disabled=(pdf_path is None),
+    disabled=(pdf_path is None or is_generating),
     use_container_width=True,
 )
 
 if generate:
+    st.session_state["generating"] = True
     config = PipelineConfig(
         pdf_path=pdf_path,
         profile=profile,
@@ -652,6 +661,7 @@ if generate:
     </div>
     """, unsafe_allow_html=True)
 
+    st.session_state["generating"] = False
     st.markdown("<div style='height:.8rem'></div>", unsafe_allow_html=True)
 
     if result.get("error"):
