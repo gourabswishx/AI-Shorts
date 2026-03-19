@@ -161,8 +161,8 @@ label, input, select, textarea, button {
 .hero-title .accent { color: #fd4816; }
 .hero-sub {
     font-size: 16px;
-    font-weight: 400;
-    color: #555555;
+    font-weight: 600;
+    color: #333333;
     line-height: 1.75;
     margin: 0 0 36px;
     max-width: 480px;
@@ -214,7 +214,7 @@ label, input, select, textarea, button {
     padding-top: 3rem;
 }
 .phone-mockup {
-    width: 320px;
+    width: 352px;
     background: #0d0d0d;
     border-radius: 36px;
     padding: 10px 8px;
