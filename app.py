@@ -211,6 +211,20 @@ label, input, select, textarea, button {
 .btn-ghost:hover { color: #fd4816 !important; }
 .btn-ghost svg { transition: transform 0.2s ease; }
 .btn-ghost:hover svg { transform: translateY(3px); }
+.magic-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    padding: 7px 14px;
+    background: rgba(253,72,22,0.06);
+    border: 1px solid rgba(253,72,22,0.2);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fd4816;
+    letter-spacing: 0.2px;
+}
 
 /* ── Phone mockup ── */
 .phone-wrap {
@@ -515,9 +529,9 @@ with hero_left:
         _eyebrow = f"SEMAGLUTIDE LAUNCH &nbsp;·&nbsp; {PRESET_COMPANY_NAME.upper()}" + (f" &nbsp;·&nbsp; {PRESET_BRAND_NAME.upper()}" if PRESET_BRAND_NAME else "")
         _title   = f"35 companies.<br>Same molecule.<br><span class='accent'>{PRESET_COMPANY_NAME} needs<br>to be first.</span>"
         _sub     = (
-            f"The patent expires this week. Doctors will prescribe the first "
+            f"Semaglutide patent expires in a few days. Doctors will prescribe the first "
             f"brand that reaches them with a clear, compelling story, "
-            f"not the one that sends a 40-page PDF. "
+            f"not the one that sends a 5-page PDF. "
             f"We've built {PRESET_COMPANY_NAME}'s launch content. "
             f"<strong>Generate your branded reel in minutes and push it to HCPs, distributors, and retailers on Day 1.</strong>"
         )
@@ -536,7 +550,13 @@ with hero_left:
         <div class="hero-title">{_title}</div>
         <p class="hero-sub">{_sub}</p>
         <div class="hero-cta-row">
-            <a href="#generate" class="btn-primary">Generate your reel &nbsp;↓</a>
+            <a href="#generate" class="btn-primary">Create your Magic Reel &nbsp;↓</a>
+        </div>
+        <div class="magic-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#fd4816" stroke="#fd4816" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            SwishX AI MagicReel&#8482;
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -592,7 +612,7 @@ st.markdown(f"""
     <div class="vp-card reveal">
         <span class="vp-icon">{_upload_svg}</span>
         <span class="vp-num">01</span>
-        <div class="vp-title">Upload your dossier. Get a reel in minutes.</div>
+        <div class="vp-title">Upload your dossier. Get a MagicReel&#8482; in minutes.</div>
         <p class="vp-desc">Your product PDF becomes a clinically verified, narrated video: MOA, trial data, dosing, safety. Ready to share before your competitor finishes their agency brief.</p>
     </div>
     <div class="vp-card reveal reveal-delay-1">
@@ -604,7 +624,7 @@ st.markdown(f"""
     <div class="vp-card reveal reveal-delay-2">
         {_card3_icon}
         <span class="vp-num">03</span>
-        <div class="vp-title">White-labelled. Branded. Launch-ready on Day 1.</div>
+        <div class="vp-title">MagicReel&#8482; Branded with your Logo. Launch ready NOW.</div>
         <p class="vp-desc">Your brand name, your logo, your messaging, generated from your own dossier. The brands that show up first with a compelling story own doctor mindshare. Everyone else plays catch-up.</p>
     </div>
 </div>
@@ -620,10 +640,11 @@ st.markdown('<hr class="rule">', unsafe_allow_html=True)
 
 st.markdown('<div class="section-gap" id="generate"></div>', unsafe_allow_html=True)
 
+_display_name = PRESET_BRAND_NAME if PRESET_BRAND_NAME else PRESET_COMPANY_NAME
 if PRESET_COMPANY_NAME:
-    st.markdown(f'<div class="reveal"><span class="s-eyebrow">Generate your reel</span><div class="s-title">Semaglutide launch success of {PRESET_COMPANY_NAME} starts here.</div><p class="s-sub">Upload your product dossier or pick a sample. Your branded, narrated reel is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="reveal"><span class="s-eyebrow">Generate your MagicReel&#8482;</span><div class="s-title">{_display_name}\'s Launch Success Starts Here.</div><p class="s-sub">Upload your product dossier or pick a sample. Your branded, narrated MagicReel&#8482; is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
 else:
-    st.markdown('<div class="reveal"><span class="s-eyebrow">Try it yourself</span><div class="s-title">Generate a reel from any drug dossier.</div><p class="s-sub">Upload any pharma PDF. Your clinically verified, narrated video reel is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="reveal"><span class="s-eyebrow">Generate your MagicReel&#8482;</span><div class="s-title">Generate a MagicReel&#8482; from any drug dossier.</div><p class="s-sub">Upload any pharma PDF. Your clinically verified, narrated MagicReel&#8482; is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
 
 if "generating" not in st.session_state:
     st.session_state.generating = False
