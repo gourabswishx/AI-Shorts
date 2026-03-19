@@ -46,6 +46,7 @@ PRESET_LOGO_PATH    = (
     COMPANIES_DIR / _company_config["logo"]
     if _company_config.get("logo") else None
 )
+PRESET_VIDEO_URL    = _company_config.get("video_url", "")
 
 DEMO_VIDEOS = [
     {"file": "AllerDuo_intro.mp4",        "drug": "AllerDuo",    "topic": "Intro",
@@ -227,25 +228,25 @@ label, input, select, textarea, button {
     overflow: hidden;
     position: relative;
     aspect-ratio: 1080 / 1540;
+    background: #0d0d0d;
 }
-.hero-slide {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    animation: heroSlide 12s ease-in-out infinite;
+.phone-screen--empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.hero-slide:nth-child(1) { animation-delay: 0s; }
-.hero-slide:nth-child(2) { animation-delay: 3s; }
-.hero-slide:nth-child(3) { animation-delay: 6s; }
-.hero-slide:nth-child(4) { animation-delay: 9s; }
-@keyframes heroSlide {
-    0%   { opacity: 0; }
-    4%   { opacity: 1; }
-    25%  { opacity: 1; }
-    29%  { opacity: 0; }
-    100% { opacity: 0; }
+.phone-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.phone-placeholder span {
+    font-family: 'Figtree', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 /* ── Divider ── */
@@ -539,18 +540,35 @@ with hero_left:
     """, unsafe_allow_html=True)
 
 with hero_right:
-    slide_files = [BASE_DIR / "assets" / f"slide_{i}.jpg" for i in range(1, 5)]
-    if all(f.exists() for f in slide_files):
-        imgs_b64 = [base64.b64encode(f.read_bytes()).decode() for f in slide_files]
-        slide_tags = "\n".join(
-            f'<img class="hero-slide" src="data:image/jpeg;base64,{b}" />'
-            for b in imgs_b64
-        )
+    if PRESET_VIDEO_URL:
         st.markdown(f"""
-        <div class="phone-wrap" style="padding-top:3rem;">
+        <div class="phone-wrap">
             <div class="phone-mockup">
                 <div class="phone-screen">
-                    {slide_tags}
+                    <iframe
+                        src="{PRESET_VIDEO_URL}"
+                        width="100%" height="100%"
+                        frameborder="0"
+                        allow="autoplay; fullscreen"
+                        allowfullscreen
+                        style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+        <div class="phone-wrap">
+            <div class="phone-mockup">
+                <div class="phone-screen phone-screen--empty">
+                    <div class="phone-placeholder">
+                        <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="11" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+                            <path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="rgba(255,255,255,0.5)"/>
+                        </svg>
+                        <span>Company reel preview</span>
+                    </div>
                 </div>
             </div>
         </div>
