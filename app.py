@@ -537,19 +537,18 @@ with hero_left:
 with hero_right:
     if PRESET_VIDEO_URL:
         _is_mp4 = PRESET_VIDEO_URL.endswith(".mp4") or "cloudinary.com" in PRESET_VIDEO_URL
-        _media_tag = (
-            f'<video autoplay loop muted playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:28px;"><source src="{PRESET_VIDEO_URL}" type="video/mp4"></video>'
-            if _is_mp4 else
-            f'<iframe src="{PRESET_VIDEO_URL}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:28px;"></iframe>'
-        )
-        components.html(f"""
-        <style>
-            body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:5rem; }}
-            .video-wrap {{ position:relative; width:265px; height:471px; border-radius:12px; overflow:hidden; flex-shrink:0; }}
-            .video-wrap iframe, .video-wrap video {{ position:absolute; top:0; left:0; width:100%; height:100%; border:none; }}
-        </style>
-        <div class="video-wrap">{_media_tag}</div>
-        """, height=570)
+        st.markdown('<div style="height:2rem"></div>', unsafe_allow_html=True)
+        if _is_mp4:
+            st.video(PRESET_VIDEO_URL)
+        else:
+            components.html(f"""
+            <style>
+                body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:5rem; }}
+                .video-wrap {{ position:relative; width:265px; height:471px; border-radius:12px; overflow:hidden; flex-shrink:0; }}
+                .video-wrap iframe {{ position:absolute; top:0; left:0; width:100%; height:100%; border:none; }}
+            </style>
+            <div class="video-wrap"><iframe src="{PRESET_VIDEO_URL}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
+            """, height=570)
     else:
         pass
 
