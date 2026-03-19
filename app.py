@@ -120,22 +120,6 @@ label, input, select, textarea, button {
 ::-webkit-scrollbar-track { background: #fff; }
 ::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 2px; }
 
-/* ── Header ── */
-.site-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem 0 1.5rem;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-    margin-bottom: 0;
-}
-.site-header-right {
-    font-size: 13px;
-    font-weight: 500;
-    color: #999;
-    letter-spacing: 0.2px;
-}
-
 /* ── Hero ── */
 .hero-section {
     padding: 5rem 0 3.5rem;
@@ -469,21 +453,6 @@ div[data-testid="stToast"]             { top: 1rem !important; bottom: auto !imp
 # HEADER
 # ══════════════════════════════════════════════════════════════════════════════
 
-if LOGO_PATH.exists():
-    _logo_b64 = base64.b64encode(LOGO_PATH.read_bytes()).decode()
-    st.markdown(f"""
-    <div class="site-header">
-        <img src="data:image/png;base64,{_logo_b64}" style="height:32px; object-fit:contain;" />
-        <span class="site-header-right">AI Shorts</span>
-    </div>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown("""
-    <div class="site-header">
-        <span style="font-family:'Figtree',sans-serif; font-size:1.1rem; font-weight:800; color:#fd4816; letter-spacing:-0.5px;">SwishX</span>
-        <span class="site-header-right">AI Shorts</span>
-    </div>
-    """, unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -947,10 +916,3 @@ for row_start in range(0, len(DEMO_VIDEOS), 3):
 # FOOTER
 # ══════════════════════════════════════════════════════════════════════════════
 
-st.markdown("""
-<hr style="border:none; border-top:1px solid rgba(0,0,0,0.08); margin:3rem 0 0;">
-<div style="text-align:center; padding:1.5rem 0 1rem; font-size:11px; color:#bbb;
-            font-family:'Figtree',sans-serif; letter-spacing:1px; font-weight:500;">
-  SWISHX &copy; 2026
-</div>
-""", unsafe_allow_html=True)
