@@ -617,7 +617,7 @@ st.markdown('<hr class="rule">', unsafe_allow_html=True)
 st.markdown('<div class="section-gap" id="generate"></div>', unsafe_allow_html=True)
 
 if PRESET_COMPANY_NAME:
-    st.markdown(f'<div class="reveal"><span class="s-eyebrow">Generate your reel</span><div class="s-title">{PRESET_COMPANY_NAME}\'s semaglutide launch content starts here.</div><p class="s-sub">Upload your product dossier or pick a sample. Your branded, narrated reel is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="reveal"><span class="s-eyebrow">Generate your reel</span><div class="s-title">Semaglutide launch success of {PRESET_COMPANY_NAME} starts here.</div><p class="s-sub">Upload your product dossier or pick a sample. Your branded, narrated reel is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
 else:
     st.markdown('<div class="reveal"><span class="s-eyebrow">Try it yourself</span><div class="s-title">Generate a reel from any drug dossier.</div><p class="s-sub">Upload any pharma PDF. Your clinically verified, narrated video reel is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
 
