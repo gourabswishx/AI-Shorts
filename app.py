@@ -7,6 +7,7 @@ import json
 import time
 import base64
 import streamlit as st
+import streamlit.components.v1 as components
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -535,19 +536,21 @@ with hero_left:
 
 with hero_right:
     if PRESET_VIDEO_URL:
-        st.markdown(f"""
-        <div class="phone-wrap">
-            <div class="phone-mockup">
-                <div class="phone-screen">
-                    {(
-                        f'<video autoplay loop muted playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;"><source src="{PRESET_VIDEO_URL}" type="video/mp4"></video>'
-                        if PRESET_VIDEO_URL.endswith(".mp4") or "cloudinary.com" in PRESET_VIDEO_URL
-                        else f'<iframe src="{PRESET_VIDEO_URL}" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>'
-                    )}
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        _is_mp4 = PRESET_VIDEO_URL.endswith(".mp4") or "cloudinary.com" in PRESET_VIDEO_URL
+        _media_tag = (
+            f'<video autoplay loop muted playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:28px;"><source src="{PRESET_VIDEO_URL}" type="video/mp4"></video>'
+            if _is_mp4 else
+            f'<iframe src="{PRESET_VIDEO_URL}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:28px;"></iframe>'
+        )
+        components.html(f"""
+        <style>
+            body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:3rem; }}
+            .mockup {{ width:352px; background:#0d0d0d; border-radius:36px; padding:10px 8px;
+                box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset, 0 40px 100px rgba(0,0,0,0.18), 0 8px 24px rgba(0,0,0,0.12); }}
+            .screen {{ border-radius:28px; overflow:hidden; position:relative; aspect-ratio:1080/1540; background:#0d0d0d; }}
+        </style>
+        <div class="mockup"><div class="screen">{_media_tag}</div></div>
+        """, height=660)
     else:
         st.markdown("""
         <div class="phone-wrap">
