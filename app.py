@@ -539,14 +539,11 @@ with hero_right:
         <div class="phone-wrap">
             <div class="phone-mockup">
                 <div class="phone-screen">
-                    <iframe
-                        src="{PRESET_VIDEO_URL}"
-                        width="100%" height="100%"
-                        frameborder="0"
-                        allow="autoplay; fullscreen"
-                        allowfullscreen
-                        style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
-                    </iframe>
+                    {(
+                        f'<video autoplay loop muted playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;"><source src="{PRESET_VIDEO_URL}" type="video/mp4"></video>'
+                        if PRESET_VIDEO_URL.endswith(".mp4") or "cloudinary.com" in PRESET_VIDEO_URL
+                        else f'<iframe src="{PRESET_VIDEO_URL}" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>'
+                    )}
                 </div>
             </div>
         </div>
