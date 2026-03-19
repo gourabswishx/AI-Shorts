@@ -727,7 +727,10 @@ with left:
     st.markdown('<span class="form-label">③ Company Logo</span>', unsafe_allow_html=True)
     company_logo_path = ""
     if PRESET_LOGO_PATH and PRESET_LOGO_PATH.exists():
-        st.image(str(PRESET_LOGO_PATH), width=160)
+        _ext  = PRESET_LOGO_PATH.suffix.lower().lstrip(".")
+        _mime = "image/svg+xml" if _ext == "svg" else ("image/jpeg" if _ext in ("jpg", "jpeg") else f"image/{_ext}")
+        _b64  = base64.b64encode(PRESET_LOGO_PATH.read_bytes()).decode()
+        st.markdown(f'<img src="data:{_mime};base64,{_b64}" style="height:48px;max-width:200px;object-fit:contain;display:block;margin-bottom:4px;" alt="{PRESET_COMPANY_NAME}">', unsafe_allow_html=True)
         company_logo_path = str(PRESET_LOGO_PATH)
     else:
         company_logo_file = st.file_uploader(
