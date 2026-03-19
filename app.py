@@ -570,7 +570,7 @@ if PRESET_LOGO_PATH and PRESET_LOGO_PATH.exists():
     _logo_b64_vp = base64.b64encode(PRESET_LOGO_PATH.read_bytes()).decode()
     _card3_icon = f'<img class="vp-logo" src="data:{_mime};base64,{_logo_b64_vp}" alt="{PRESET_COMPANY_NAME}" />'
 else:
-    _card3_icon = ""
+    _card3_icon = f'<span class="vp-icon">{(COMPANIES_DIR / "fall-back.svg").read_text()}</span>'
 
 st.markdown(f"""
 <div class="vp-grid">
