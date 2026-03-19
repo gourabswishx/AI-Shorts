@@ -62,5 +62,9 @@
     }
   },
   "intas":     { "name": "Intas Pharma",    "logo": "intas.png",     "video_url": "" },
-  "hetero":    { "name": "Hetero Healthcare",                         "video_url": "" }
+  "hetero":    { "name": "Hetero Healthcare",                         "video_url": "",
+    "brands": {
+      "semaglutide": { "name": "Semaglutide", "video_url": "" }
+    }
+  }
 }
