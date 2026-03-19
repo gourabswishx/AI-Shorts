@@ -23,7 +23,7 @@
       "semavic":    { "name": "Semavic",    "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773944208/Semavic_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_qro2ha.mp4" }
     }
   },
-  "natco":     { "name": "Natco",                                     "video_url": "",
+  "natco":     { "name": "Natco",           "logo": "natco.webp",    "video_url": "",
     "brands": { "semanat":     { "name": "Semanat",     "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943812/Semanat_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_ki4hwf.mp4" } }
   },
   "ajanta":    { "name": "Ajanta",          "logo": "ajanta.png",    "video_url": "",
