@@ -558,7 +558,7 @@ with hero_left:
             f"brand that reaches them with a clear, compelling story, "
             f"not the one that sends a 5-page PDF. "
             f"We've built {PRESET_COMPANY_NAME}'s launch content. "
-            f"<strong>Generate your branded reel in minutes and push it to HCPs, distributors, and retailers on Day 1.</strong>"
+            f"<strong>Generate your branded MagicReel&#8482; in minutes and push it to HCPs, distributors, and retailers on Day 1.</strong>"
         )
     else:
         _eyebrow = "PHARMA CONTENT, REIMAGINED"
