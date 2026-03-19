@@ -548,43 +548,8 @@ with hero_right:
             .mockup {{ width:352px; background:#0d0d0d; border-radius:36px; padding:10px 8px;
                 box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset, 0 40px 100px rgba(0,0,0,0.18), 0 8px 24px rgba(0,0,0,0.12); }}
             .screen {{ border-radius:28px; overflow:hidden; position:relative; aspect-ratio:1080/1540; background:#0d0d0d; }}
-            .unmute-btn {{
-                position:absolute; bottom:14px; right:14px; z-index:10;
-                background:rgba(0,0,0,0.55); border:1px solid rgba(255,255,255,0.25);
-                border-radius:999px; padding:6px 12px; cursor:pointer;
-                display:flex; align-items:center; gap:6px;
-                font-family:sans-serif; font-size:11px; color:#fff; font-weight:600;
-                backdrop-filter:blur(6px); letter-spacing:0.3px;
-                transition: background 0.2s;
-            }}
-            .unmute-btn:hover {{ background:rgba(0,0,0,0.8); }}
-            .unmute-btn svg {{ flex-shrink:0; }}
         </style>
-        <div class="mockup">
-            <div class="screen" id="screen">
-                {_media_tag}
-                <button class="unmute-btn" id="unmuteBtn" onclick="unmute()">
-                    <svg width="13" height="13" fill="none" viewBox="0 0 24 24">
-                        <path d="M3 9v6h4l5 5V4L7 9H3z" fill="white"/>
-                        <line x1="17" y1="9" x2="23" y2="15" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="23" y1="9" x2="17" y2="15" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    Tap to unmute
-                </button>
-            </div>
-        </div>
-        <script>
-        function unmute() {{
-            var iframe = document.querySelector('iframe');
-            var btn = document.getElementById('unmuteBtn');
-            if (iframe) {{
-                // Post message to Vimeo player to unmute
-                iframe.contentWindow.postMessage(JSON.stringify({{method:'setVolume',value:1}}), '*');
-                iframe.src = iframe.src.replace('muted=0','').replace('muted=1','') + '&muted=0';
-            }}
-            btn.style.display = 'none';
-        }}
-        </script>
+        <div class="mockup"><div class="screen">{_media_tag}</div></div>
         """, height=660)
     else:
         st.markdown("""
