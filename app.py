@@ -133,7 +133,7 @@ label, input, select, textarea, button {
 
 /* ── Hero ── */
 .hero-section {
-    padding: 5rem 0 3.5rem;
+    padding: 3rem 0 3.5rem;
 }
 .hero-eyebrow {
     display: inline-block;
@@ -211,10 +211,10 @@ label, input, select, textarea, button {
 .phone-wrap {
     display: flex;
     justify-content: center;
-    padding-top: 1rem;
+    padding-top: 3rem;
 }
 .phone-mockup {
-    width: 248px;
+    width: 320px;
     background: #0d0d0d;
     border-radius: 36px;
     padding: 10px 8px;
@@ -498,7 +498,7 @@ div[data-testid="stToast"]             { top: 1rem !important; bottom: auto !imp
 # HERO
 # ══════════════════════════════════════════════════════════════════════════════
 
-hero_left, hero_right = st.columns([3, 1.6], gap="large")
+hero_left, hero_right = st.columns([2.8, 2], gap="large")
 
 with hero_left:
     st.markdown('<div class="section-gap-sm"></div>', unsafe_allow_html=True)
