@@ -544,29 +544,14 @@ with hero_right:
         )
         components.html(f"""
         <style>
-            body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:3rem; }}
-            .mockup {{ width:352px; background:#0d0d0d; border-radius:36px; padding:10px 8px;
-                box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset, 0 40px 100px rgba(0,0,0,0.18), 0 8px 24px rgba(0,0,0,0.12); }}
-            .screen {{ border-radius:28px; overflow:hidden; position:relative; aspect-ratio:1080/1540; background:#0d0d0d; }}
+            body {{ margin:0; background:transparent; }}
+            .video-wrap {{ position:relative; width:100%; aspect-ratio:9/16; border-radius:12px; overflow:hidden; }}
+            .video-wrap iframe, .video-wrap video {{ position:absolute; top:0; left:0; width:100%; height:100%; border:none; }}
         </style>
-        <div class="mockup"><div class="screen">{_media_tag}</div></div>
-        """, height=660)
+        <div class="video-wrap">{_media_tag}</div>
+        """, height=560)
     else:
-        st.markdown("""
-        <div class="phone-wrap">
-            <div class="phone-mockup">
-                <div class="phone-screen phone-screen--empty">
-                    <div class="phone-placeholder">
-                        <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="11" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-                            <path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="rgba(255,255,255,0.5)"/>
-                        </svg>
-                        <span>Company reel preview</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        pass
 
 st.markdown('<hr class="rule">', unsafe_allow_html=True)
 
