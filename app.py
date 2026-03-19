@@ -1,6 +1,5 @@
 """
-SwishX — Pharma AI Video Reel Generator
-Product demo page
+SwishX — AI Shorts · Pharma Video Reel Generator
 """
 
 import os
@@ -13,7 +12,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# On Streamlit Cloud, secrets are in st.secrets — inject into env so pipeline picks them up
 try:
     import streamlit as _st
     for _key in ["ANTHROPIC_API_KEY", "GOOGLE_API_KEY", "ELEVENLABS_API_KEY"]:
@@ -26,17 +24,15 @@ from pipeline import PipelineConfig, run_pipeline
 from config_loader import load_topic_map
 
 def _img_b64(path):
-    """Read an image file and return base64 string."""
     return base64.b64encode(Path(path).read_bytes()).decode()
 
 BASE_DIR      = Path(__file__).parent
 PDFS_DIR      = BASE_DIR / "pdfs"
 DEMOS_DIR     = BASE_DIR / "demos"
 LOGO_PATH     = BASE_DIR / "assets" / "Swish_X_black_logo_02.png"
-HERO_FRAME    = BASE_DIR / "assets" / "hero_frame.jpg"
 COMPANIES_DIR = BASE_DIR / "companies"
 
-# ── Company preset (URL param: ?company=slug) ─────────────────────────────
+# ── Company preset ─────────────────────────────────────────────────────────
 _company_param  = st.query_params.get("company", "")
 _company_config: dict = {}
 if _company_param:
@@ -53,17 +49,17 @@ PRESET_LOGO_PATH    = (
 
 DEMO_VIDEOS = [
     {"file": "AllerDuo_intro.mp4",        "drug": "AllerDuo",    "topic": "Intro",
-     "composition": "Bilastine + Montelukast", "pdf_thumb": "assets/pdf_thumb_AllerDuo.png", "pages": 9},
+     "composition": "Bilastine + Montelukast",                    "pdf_thumb": "assets/pdf_thumb_AllerDuo.png",    "pages": 9},
     {"file": "Tibrolin_intro.mp4",         "drug": "Tibrolin",    "topic": "Intro",
-     "composition": "Trypsin + Bromelain + Rutoside", "pdf_thumb": "assets/pdf_thumb_Tibrolin.png", "pages": 4},
+     "composition": "Trypsin + Bromelain + Rutoside",             "pdf_thumb": "assets/pdf_thumb_Tibrolin.png",    "pages": 4},
     {"file": "Rexulti_intro.mp4",          "drug": "Rexulti",     "topic": "Intro",
-     "composition": "Brexpiprazole", "pdf_thumb": "assets/pdf_thumb_Rexulti.png", "pages": 9},
+     "composition": "Brexpiprazole",                              "pdf_thumb": "assets/pdf_thumb_Rexulti.png",     "pages": 9},
     {"file": "Subneuro-NT_intro.mp4",      "drug": "Subneuro-NT", "topic": "Intro",
-     "composition": "Methylcobalamin + Pregabalin + Nortriptyline", "pdf_thumb": "assets/pdf_thumb_Subneuro-NT.png", "pages": 4},
+     "composition": "Methylcobalamin + Pregabalin + Nortriptyline","pdf_thumb": "assets/pdf_thumb_Subneuro-NT.png", "pages": 4},
     {"file": "AllerDuo_mechanism.mp4",     "drug": "AllerDuo",    "topic": "Mechanism",
-     "composition": "Bilastine + Montelukast", "pdf_thumb": "assets/pdf_thumb_AllerDuo.png", "pages": 9},
+     "composition": "Bilastine + Montelukast",                    "pdf_thumb": "assets/pdf_thumb_AllerDuo.png",    "pages": 9},
     {"file": "AllerDuo_dosage_safety.mp4", "drug": "AllerDuo",    "topic": "Dosage & Safety",
-     "composition": "Bilastine + Montelukast", "pdf_thumb": "assets/pdf_thumb_AllerDuo.png", "pages": 9},
+     "composition": "Bilastine + Montelukast",                    "pdf_thumb": "assets/pdf_thumb_AllerDuo.png",    "pages": 9},
 ]
 
 TOPIC_COLORS = {
@@ -75,90 +71,162 @@ TOPIC_COLORS = {
     "Side Effects":    "#db2777",
 }
 
-# ── Page config ───────────────────────────────────────────────────────────────
-
+# ── Page config ────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="SwishX — Pharma Video Reels",
+    page_title="SwishX AI Shorts — Pharma Video Reels",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
 
-# ── CSS ───────────────────────────────────────────────────────────────────────
-
+# ── CSS ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; }
-html, body, [data-testid="stAppViewContainer"] { scroll-behavior: smooth !important; }
 
-/* ── Reset Streamlit chrome ── */
+/* ── Hide Streamlit chrome ── */
 section[data-testid="stSidebar"]  { display: none !important; }
 div[data-testid="stToolbar"]      { display: none !important; }
 div[data-testid="stDecoration"]   { display: none !important; }
 div[data-testid="stStatusWidget"] { display: none !important; }
 #MainMenu, footer, header         { visibility: hidden !important; }
 
+/* ── Global ── */
+html, body,
 .stApp,
 .stApp > div,
 div[data-testid="stAppViewContainer"],
 div[data-testid="stMain"],
 div[data-testid="stVerticalBlock"] {
     background-color: #ffffff !important;
+    font-family: 'Figtree', sans-serif !important;
+    -webkit-font-smoothing: antialiased;
 }
 
 div[data-testid="stMainBlockContainer"] {
-    max-width: 1200px;
-    padding: 1.5rem 2rem 4rem;
+    max-width: 1160px;
+    padding: 0 2.5rem 6rem;
 }
 
-/* Fonts */
 div[data-testid="stMarkdownContainer"] p,
 div[data-testid="stMarkdownContainer"] li,
-label { font-family: 'Inter', sans-serif !important; }
+label, input, select, textarea, button {
+    font-family: 'Figtree', sans-serif !important;
+}
 
 ::-webkit-scrollbar       { width: 4px; }
-::-webkit-scrollbar-track { background: #ffffff; }
-::-webkit-scrollbar-thumb { background: #d0d0d0; border-radius: 2px; }
+::-webkit-scrollbar-track { background: #fff; }
+::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 2px; }
+
+/* ── Header ── */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 0 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    margin-bottom: 0;
+}
+.site-header-right {
+    font-size: 13px;
+    font-weight: 500;
+    color: #999;
+    letter-spacing: 0.2px;
+}
+
+/* ── Hero ── */
+.hero-section {
+    padding: 5rem 0 3.5rem;
+}
+.hero-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: #fd4816;
+    margin-bottom: 22px;
+    display: block;
+}
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -2px;
+    color: #111111;
+    margin: 0 0 22px;
+}
+.hero-title .accent { color: #fd4816; }
+.hero-sub {
+    font-size: 16px;
+    font-weight: 400;
+    color: #555555;
+    line-height: 1.75;
+    margin: 0 0 36px;
+    max-width: 480px;
+}
+.hero-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fd4816;
+    color: #fff !important;
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background 0.2s ease;
+    letter-spacing: 0.1px;
+    border: none;
+    cursor: pointer;
+}
+.btn-primary:hover { background: #e03d12; }
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #444444 !important;
+    font-family: 'Figtree', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: color 0.2s ease;
+    letter-spacing: 0.1px;
+}
+.btn-ghost:hover { color: #fd4816 !important; }
+.btn-ghost svg { transition: transform 0.2s ease; }
+.btn-ghost:hover svg { transform: translateY(3px); }
 
 /* ── Phone mockup ── */
-.phone-mockup {
-    width: 280px;
-    background: #000;
-    border-radius: 28px;
-    padding: 10px 8px;
-    box-shadow: 0 24px 80px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.08);
-    transition: transform .3s ease;
+.phone-wrap {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
 }
-.phone-mockup:hover { transform: scale(1.02); }
+.phone-mockup {
+    width: 248px;
+    background: #0d0d0d;
+    border-radius: 36px;
+    padding: 10px 8px;
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.06) inset,
+        0 40px 100px rgba(0,0,0,0.18),
+        0 8px 24px rgba(0,0,0,0.12);
+}
 .phone-screen {
-    border-radius: 20px;
+    border-radius: 28px;
     overflow: hidden;
     position: relative;
     aspect-ratio: 1080 / 1540;
-}
-.play-btn {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 56px; height: 56px;
-    background: rgba(0,0,0,.55);
-    border: 2px solid rgba(255,255,255,.85);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    z-index: 10;
-    pointer-events: none;
-    backdrop-filter: blur(4px);
-}
-.play-btn::after {
-    content: '';
-    display: block;
-    width: 0; height: 0;
-    border-style: solid;
-    border-width: 10px 0 10px 16px;
-    border-color: transparent transparent transparent #fff;
-    margin-left: 3px;
 }
 .hero-slide {
     position: absolute;
@@ -172,273 +240,181 @@ label { font-family: 'Inter', sans-serif !important; }
 .hero-slide:nth-child(2) { animation-delay: 3s; }
 .hero-slide:nth-child(3) { animation-delay: 6s; }
 .hero-slide:nth-child(4) { animation-delay: 9s; }
-
 @keyframes heroSlide {
-  0%    { opacity: 0; }
-  3%    { opacity: 1; }
-  25%   { opacity: 1; }
-  28%   { opacity: 0; }
-  100%  { opacity: 0; }
+    0%   { opacity: 0; }
+    4%   { opacity: 1; }
+    25%  { opacity: 1; }
+    29%  { opacity: 0; }
+    100% { opacity: 0; }
 }
 
-/* ── Logo ── */
-.swx-logo {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.5rem; font-weight: 900;
-    color: #fd4816; padding: 6px 0;
-}
-.top-rule { border: none; border-top: 1px solid #e5e5e5; margin: .6rem 0 0; }
+/* ── Divider ── */
+.rule { border: none; border-top: 1px solid rgba(0,0,0,0.08); margin: 0; }
 
-/* ── Hero ── */
-.hero-eyebrow {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 3px; text-transform: uppercase;
-    color: #fd4816; margin-bottom: 18px;
-}
-.hero-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2.2rem; font-weight: 900; line-height: 1.15;
-    color: #111111; margin: 0 0 18px;
-}
-.hero-title .a { color: #fd4816; }
-.hero-sub {
-    font-family: 'Inter', sans-serif;
-    font-size: 15px; color: #666666; line-height: 1.7;
-}
-.hero-pills {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    margin-top: 20px;
-}
-.pill {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px; font-weight: 600;
-    color: #fd4816;
-    background: rgba(253,72,22,.08);
-    border: 1px solid rgba(253,72,22,.2);
-    border-radius: 20px;
-    padding: 5px 14px;
-}
-.hero-video-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px; color: #999999;
-    text-align: center;
-    margin-top: 8px;
-}
-
-/* ── Hero CTA ── */
-.hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 24px;
-    margin-bottom: 4px;
-    padding: 14px 36px;
-    background: transparent;
-    color: #fd4816 !important;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border: 1.5px solid rgba(253,72,22,.35);
-    border-radius: 40px;
-    text-decoration: none !important;
-    transition: all 0.3s ease;
-}
-.hero-cta:hover {
-    border-color: #fd4816;
-    background: rgba(253,72,22,.08);
-    box-shadow: 0 0 20px rgba(253,72,22,.1);
-}
-.hero-cta .arrow {
-    display: inline-block;
-    transition: transform 0.3s ease;
-}
-.hero-cta:hover .arrow {
-    transform: translateY(3px);
-}
-
-/* ── Section ── */
-.section-rule {
-    border: none; border-top: 1px solid #e5e5e5;
-    margin: 3rem 0 2.5rem;
-}
+/* ── Section header ── */
 .s-eyebrow {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 2.5px; text-transform: uppercase;
-    color: #fd4816; margin-bottom: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: #fd4816;
+    margin-bottom: 12px;
+    display: block;
 }
 .s-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.3rem; font-weight: 700;
-    color: #111111; margin-bottom: 6px;
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #111111;
+    margin: 0 0 8px;
+    line-height: 1.15;
 }
 .s-sub {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px; color: #666666; margin-bottom: 1.6rem;
+    font-size: 15px;
+    font-weight: 400;
+    color: #666666;
+    line-height: 1.7;
+    margin: 0 0 2.5rem;
+    max-width: 540px;
 }
 
-/* ── Feature cards ── */
-.feat-row {
-    display: flex;
-    gap: 16px;
-    align-items: stretch;
+/* ── Value prop cards ── */
+.vp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 14px;
+    overflow: hidden;
 }
-.feat-card {
-    background: #f7f7f8;
-    border: 1px solid #e8e8e8;
-    border-radius: 12px;
-    padding: 1.3rem 1.2rem;
-    flex: 1 1 0;
-    transition: border-color .25s, transform .25s, box-shadow .25s;
+.vp-card {
+    background: #ffffff;
+    padding: 32px 28px;
 }
-.feat-card:hover { border-color: #d0d0d0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
-.feat-icon {
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-}
-.feat-title {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700; font-size: 14px;
-    color: #1a1a1a; margin-bottom: 6px;
-}
-.feat-desc {
-    font-family: 'Inter', sans-serif;
-    font-size: 12px; color: #666666; line-height: 1.6;
-}
-
-/* ── Video cards ── */
-.vid-meta {
-    padding: 8px 2px 0;
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-}
-.vid-drug {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700; font-size: 13px; color: #333333;
-}
-.vid-comp {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px; color: #777777;
-}
-.t-badge {
-    display: inline-block; padding: 2px 9px;
-    border-radius: 20px; font-size: 11px; font-weight: 600;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.pdf-badge {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px; font-weight: 500;
-    color: #999999; background: #f0f0f0;
-    border-radius: 12px; padding: 2px 8px;
-    margin-left: auto;
-    white-space: nowrap;
-}
-
-/* ── PDF → Video demo card ── */
-.demo-transform {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-.demo-pdf-side {
-    flex-shrink: 0;
-}
-.demo-pdf-img {
-    width: 80px; height: 100px;
-    object-fit: cover; object-position: top;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-}
-.demo-arrow-small {
-    font-size: 1.2rem; color: #fd4816;
+.vp-num {
+    font-size: 10px;
     font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #fd4816;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: block;
 }
-.demo-pages {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px; color: #999999;
-    margin-top: 3px;
+.vp-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 10px;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
 }
+.vp-desc {
+    font-size: 13.5px;
+    font-weight: 400;
+    color: #666666;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── Section spacing ── */
+.section-gap { height: 5rem; }
+.section-gap-sm { height: 2.5rem; }
 
 /* ── Form ── */
 .form-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 2px;
-    color: #fd4816; margin-bottom: 8px; margin-top: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: #fd4816;
+    margin-bottom: 10px;
+    margin-top: 4px;
+    display: block;
 }
 div[data-baseweb="select"] > div {
-    background: #f7f7f8 !important; border-color: #e5e5e5 !important; color: #333333 !important;
+    background: #f9f9f9 !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    color: #333 !important;
+    border-radius: 8px !important;
+    font-family: 'Figtree', sans-serif !important;
 }
-div[data-baseweb="select"] svg { fill: #999999 !important; }
-textarea { background: #f7f7f8 !important; border-color: #e5e5e5 !important; color: #444444 !important; }
+div[data-baseweb="select"] svg { fill: #999 !important; }
+textarea {
+    background: #f9f9f9 !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    color: #444 !important;
+    border-radius: 8px !important;
+    font-family: 'Figtree', sans-serif !important;
+}
 div[data-testid="stFileUploader"] > div {
-    background: #f7f7f8 !important; border: 1px dashed #e5e5e5 !important; border-radius: 8px !important;
+    background: #f9f9f9 !important;
+    border: 1px dashed rgba(0,0,0,0.15) !important;
+    border-radius: 8px !important;
 }
-div[data-testid="stFileUploader"] p { color: #999999 !important; }
-.stRadio > div { gap: 1rem !important; }
-.stRadio label p { color: #444444 !important; font-size: 13px !important; }
-.stCheckbox label p { color: #444444 !important; }
+div[data-testid="stFileUploader"] p { color: #aaa !important; font-family: 'Figtree', sans-serif !important; }
+.stRadio > div { gap: 1.2rem !important; }
+.stRadio label p { color: #444 !important; font-size: 14px !important; font-family: 'Figtree', sans-serif !important; }
+.stCheckbox label p { color: #444 !important; font-family: 'Figtree', sans-serif !important; }
 
 /* ── Buttons ── */
 div[data-testid="stButton"] > button[kind="primary"] {
-    background: linear-gradient(135deg, #fd4816 0%, #d93d0f 100%) !important;
-    color: #fff !important; border: none !important;
-    font-family: 'Montserrat', sans-serif !important;
-    font-weight: 700 !important; font-size: 15px !important;
-    padding: 14px 32px !important; border-radius: 8px !important;
-    box-shadow: 0 4px 20px rgba(253,72,22,.2) !important;
-    transition: opacity .2s, box-shadow .2s !important;
+    background: #fd4816 !important;
+    color: #fff !important;
+    border: none !important;
+    font-family: 'Figtree', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    padding: 14px 32px !important;
+    border-radius: 8px !important;
+    letter-spacing: 0.1px !important;
+    transition: background 0.2s ease !important;
+    box-shadow: none !important;
 }
-div[data-testid="stButton"] > button[kind="primary"]:hover   { opacity: .88 !important; }
-div[data-testid="stButton"] > button[kind="primary"]:disabled { opacity: .3 !important; }
+div[data-testid="stButton"] > button[kind="primary"]:hover   { background: #e03d12 !important; transform: none !important; }
+div[data-testid="stButton"] > button[kind="primary"]:disabled { opacity: 0.35 !important; }
 
 div[data-testid="stDownloadButton"] > button {
-    background: transparent !important; color: #fd4816 !important;
-    border: 1px solid #fd4816 !important; border-radius: 8px !important;
-    font-family: 'Montserrat', sans-serif !important; font-weight: 600 !important;
+    background: transparent !important;
+    color: #fd4816 !important;
+    border: 1.5px solid #fd4816 !important;
+    border-radius: 8px !important;
+    font-family: 'Figtree', sans-serif !important;
+    font-weight: 600 !important;
     width: 100% !important;
+    transition: background 0.2s !important;
 }
+div[data-testid="stDownloadButton"] > button:hover { background: rgba(253,72,22,0.05) !important; }
 
 div[data-testid="stButton"] > button[kind="secondary"] {
-    background: transparent !important; color: #fd4816 !important;
-    border: 1px solid rgba(253,72,22,.4) !important; border-radius: 8px !important;
-    font-family: 'Montserrat', sans-serif !important; font-weight: 600 !important;
-    transition: all .2s !important;
+    background: transparent !important;
+    color: #444 !important;
+    border: 1.5px solid rgba(0,0,0,0.15) !important;
+    border-radius: 8px !important;
+    font-family: 'Figtree', sans-serif !important;
+    font-weight: 600 !important;
+    transition: all 0.2s !important;
 }
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
     border-color: #fd4816 !important;
-    background: rgba(253,72,22,.08) !important;
+    color: #fd4816 !important;
 }
 
 /* ── Progress ── */
 div[data-testid="stProgress"] > div > div { background: #fd4816 !important; }
-div[data-testid="stProgress"] > div       { background: #e8e8e8 !important; }
-
-.p-step         { font-family:'Inter',sans-serif; font-size:13px; padding:4px 0; }
-.p-step.waiting { color:#d0d0d0; }
-.p-step.active  { color:#fd4816; animation: stepPulse 1.8s ease-in-out infinite; }
-.p-step.done    { color:#16a34a; }
-
-@keyframes stepPulse {
-  0%,100% { opacity:1; }
-  50%     { opacity:.4; }
-}
+div[data-testid="stProgress"] > div       { background: #f0f0f0 !important; }
+.p-step         { font-family: 'Figtree', sans-serif; font-size: 13px; padding: 4px 0; }
+.p-step.waiting { color: #d0d0d0; }
+.p-step.active  { color: #fd4816; animation: stepPulse 1.8s ease-in-out infinite; }
+.p-step.done    { color: #16a34a; }
+@keyframes stepPulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
 .spin-dot { display:inline-block; animation: spinPulse 2s ease-in-out infinite; }
-@keyframes spinPulse {
-  0%,100% { transform:scale(1);   opacity:1; }
-  50%     { transform:scale(1.15); opacity:.65; }
-}
+@keyframes spinPulse { 0%,100% { transform:scale(1); opacity:1; } 50% { transform:scale(1.15); opacity:.65; } }
 
-
-
-/* ── Loading skeleton ── */
+/* ── Video skeleton ── */
 .video-skeleton {
-    background: #f7f7f8;
-    border: 1px solid #e8e8e8;
+    background: #f9f9f9;
+    border: 1px solid rgba(0,0,0,0.08);
     border-radius: 12px;
     padding: 3rem 1.5rem;
     text-align: center;
@@ -449,43 +425,42 @@ div[data-testid="stProgress"] > div       { background: #e8e8e8 !important; }
     justify-content: center;
     animation: skeletonPulse 2.5s ease-in-out infinite;
 }
-.video-skeleton .skeleton-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-.video-skeleton .skeleton-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: #999999;
-}
-@keyframes skeletonPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-}
+.video-skeleton .sk-text { font-family: 'Figtree', sans-serif; font-size: 14px; color: #aaa; margin-top: 1rem; }
+@keyframes skeletonPulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
 
-/* ── Video cards ── */
+/* ── Demo video cards ── */
 video { border-radius: 10px; }
-
-/* ── Alerts ── */
-div[data-testid="stAlert"] { border-radius: 8px !important; }
-
-/* ── Expander ── */
-div[data-testid="stExpander"] {
-    background: #f7f7f8 !important;
-    border: 1px solid #e8e8e8 !important;
-    border-radius: 10px !important;
+.vid-label {
+    font-family: 'Figtree', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 6px;
 }
-div[data-testid="stExpander"] summary {
-    font-family: 'Montserrat', sans-serif !important;
-    font-weight: 600 !important;
-    color: #222222 !important;
+.t-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Figtree', sans-serif;
+    letter-spacing: 0.2px;
 }
+.demo-pdf-img {
+    width: 68px;
+    height: 86px;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+.demo-arrow { color: #fd4816; font-weight: 700; font-size: 1rem; }
 
-/* ── Toast notification — top-right ── */
-div[data-testid="stToast"] {
-    top: 1rem !important;
-    bottom: auto !important;
-}
+/* ── Misc ── */
+div[data-testid="stAlert"]              { border-radius: 8px !important; font-family: 'Figtree', sans-serif !important; }
+div[data-testid="stExpander"]          { background: #f9f9f9 !important; border: 1px solid rgba(0,0,0,0.08) !important; border-radius: 10px !important; }
+div[data-testid="stExpander"] summary  { font-family: 'Figtree', sans-serif !important; font-weight: 600 !important; color: #222 !important; }
+div[data-testid="stToast"]             { top: 1rem !important; bottom: auto !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -495,167 +470,147 @@ div[data-testid="stToast"] {
 # ══════════════════════════════════════════════════════════════════════════════
 
 if LOGO_PATH.exists():
-    st.image(str(LOGO_PATH), width=180)
+    _logo_b64 = base64.b64encode(LOGO_PATH.read_bytes()).decode()
+    st.markdown(f"""
+    <div class="site-header">
+        <img src="data:image/png;base64,{_logo_b64}" style="height:32px; object-fit:contain;" />
+        <span class="site-header-right">AI Shorts</span>
+    </div>
+    """, unsafe_allow_html=True)
 else:
-    st.markdown('<div class="swx-logo">SwishX</div>', unsafe_allow_html=True)
-
-st.markdown('<hr class="top-rule">', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="site-header">
+        <span style="font-family:'Figtree',sans-serif; font-size:1.1rem; font-weight:800; color:#fd4816; letter-spacing:-0.5px;">SwishX</span>
+        <span class="site-header-right">AI Shorts</span>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# HERO — headline left, featured video right
+# HERO
 # ══════════════════════════════════════════════════════════════════════════════
 
-st.markdown("<div style='height:1.5rem'></div>", unsafe_allow_html=True)
-
-hero_left, hero_right = st.columns([3, 1.8], gap="large")
+hero_left, hero_right = st.columns([3, 1.6], gap="large")
 
 with hero_left:
-    _eyebrow     = f"For {PRESET_COMPANY_NAME} · Pharma L&D, reimagined" if PRESET_COMPANY_NAME else "Pharma L&D, reimagined"
-    _title_line2 = f"<span class='a'>Make {PRESET_COMPANY_NAME}'s<br>team watch a<br>60-second reel instead.</span>" if PRESET_COMPANY_NAME else "<span class='a'>Make them watch a<br>60-second reel instead.</span>"
-    _sub         = (f"Turn any {PRESET_COMPANY_NAME} drug PDF into a narrated video reel in under 5 minutes — with every claim verified against the source. Add a gamified quiz that tests understanding, ranks your field team, and gives you learning data at scale.") if PRESET_COMPANY_NAME else ("Turn any drug PDF into a narrated video reel in under 5 minutes — with every claim verified against the source. Add a gamified quiz that tests understanding, ranks your field team, and gives you learning data at scale.")
+    st.markdown('<div class="section-gap-sm"></div>', unsafe_allow_html=True)
+
+    if PRESET_COMPANY_NAME:
+        _eyebrow = f"SEMAGLUTIDE LAUNCH &nbsp;·&nbsp; {PRESET_COMPANY_NAME.upper()}"
+        _title   = f"35 companies.<br>Same molecule.<br><span class='accent'>{PRESET_COMPANY_NAME} needs<br>to be first.</span>"
+        _sub     = (
+            f"The patent expires this week. Doctors will prescribe the first "
+            f"brand that reaches them with a clear, compelling story — "
+            f"not the one that sends a 40-page PDF. "
+            f"We've built {PRESET_COMPANY_NAME}'s launch content. Generate your branded "
+            f"reel in minutes and push it to HCPs, distributors, and retailers on Day 1."
+        )
+    else:
+        _eyebrow = "PHARMA CONTENT, REIMAGINED"
+        _title   = "From 40-page dossier<br>to 60-second reel.<br><span class='accent'>In minutes.</span>"
+        _sub     = (
+            "Turn any drug PDF into a clinically verified product intro reel "
+            "your field team can WhatsApp to any doctor on launch day. "
+            "No agency. No four-week wait. No excuses."
+        )
+
     st.markdown(f"""
-    <div style="padding-top:.8rem;">
-      <div class="hero-eyebrow">{_eyebrow}</div>
-      <div class="hero-title">
-        Nobody reads a<br>40-page PDF.<br>
-        {_title_line2}
-      </div>
-      <p class="hero-sub">{_sub}</p>
-      <a href="#try-it" class="hero-cta">Try it yourself <span class="arrow">&darr;</span></a>
-      <div class="hero-pills">
-        <span class="pill">AI-Narrated Reels</span>
-        <span class="pill">Gamified Quizzes</span>
-        <span class="pill">Team Leaderboard</span>
-        <span class="pill">Learning Analytics</span>
-        <span class="pill">Under 5 Minutes</span>
-        <span class="pill">Source-Verified Content</span>
-      </div>
+    <div class="hero-section">
+        <span class="hero-eyebrow">{_eyebrow}</span>
+        <div class="hero-title">{_title}</div>
+        <p class="hero-sub">{_sub}</p>
+        <div class="hero-cta-row">
+            <a href="#generate" class="btn-primary">Generate your reel &nbsp;↓</a>
+            <a href="#demo-reels" class="btn-ghost">
+                See sample reels
+                <svg width="14" height="14" fill="none" viewBox="0 0 16 16">
+                    <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
 with hero_right:
-    slide_dir = BASE_DIR / "assets"
-    slide_files = [slide_dir / f"slide_{i}.jpg" for i in range(1, 5)]
-    slides_exist = all(f.exists() for f in slide_files)
-    if slides_exist:
+    slide_files = [BASE_DIR / "assets" / f"slide_{i}.jpg" for i in range(1, 5)]
+    if all(f.exists() for f in slide_files):
         imgs_b64 = [base64.b64encode(f.read_bytes()).decode() for f in slide_files]
         slide_tags = "\n".join(
             f'<img class="hero-slide" src="data:image/jpeg;base64,{b}" />'
             for b in imgs_b64
         )
         st.markdown(f"""
-        <a href="#demo-reels" style="text-decoration:none; display:flex; justify-content:center; padding-top:0.5rem;">
-          <div class="phone-mockup" style="cursor:pointer;">
-            <div class="phone-screen">
-              {slide_tags}
-              <div class="play-btn"></div>
+        <div class="phone-wrap" style="padding-top:3rem;">
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    {slide_tags}
+                </div>
             </div>
-          </div>
-        </a>
+        </div>
         """, unsafe_allow_html=True)
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# WHAT'S IN EACH REEL — 4 feature cards
-# ══════════════════════════════════════════════════════════════════════════════
-
-st.markdown('<hr class="section-rule">', unsafe_allow_html=True)
-st.markdown('<div class="s-eyebrow">What each reel includes</div>', unsafe_allow_html=True)
-st.markdown('<div class="s-title">Education meets gamification</div>', unsafe_allow_html=True)
-st.markdown(
-    '<div class="s-sub">Every reel has four parts designed to maximise knowledge retention and engagement</div>',
-    unsafe_allow_html=True,
-)
-
-FEATURES = [
-    ("🎬", "Bite-Sized Reels",
-     "60-second videos tailored to each role — not 40-page PDFs."),
-    ("🧠", "Knowledge Checks",
-     "Quick questions that test real understanding, not recall."),
-    ("🏆", "Streaks & Gamification",
-     "Daily streaks and instant feedback keep your team hooked."),
-    ("📊", "Leaderboards",
-     "Friendly competition across regions, teams, and roles."),
-    ("💊", "Sales-Linked Insights",
-     "Tie leaderboard scores to primary sales data directly."),
-]
-
-cards_html = '<div class="feat-row">' + "".join(
-    f'<div class="feat-card"><div class="feat-icon">{ic}</div>'
-    f'<div class="feat-title">{t}</div><div class="feat-desc">{d}</div></div>'
-    for ic, t, d in FEATURES
-) + '</div>'
-st.markdown(cards_html, unsafe_allow_html=True)
+st.markdown('<hr class="rule">', unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# SAMPLE REELS
+# VALUE PROPS
 # ══════════════════════════════════════════════════════════════════════════════
 
-st.markdown('<hr class="section-rule" id="demo-reels">', unsafe_allow_html=True)
-st.markdown('<div class="s-eyebrow">See it in action</div>', unsafe_allow_html=True)
-st.markdown('<div class="s-title">PDF in, video reel out</div>', unsafe_allow_html=True)
-st.markdown(
-    '<div class="s-sub">Each reel generated from a single drug PDF — fully automated, zero hallucination</div>',
-    unsafe_allow_html=True,
-)
+st.markdown('<div class="section-gap"></div>', unsafe_allow_html=True)
 
-for row_start in range(0, len(DEMO_VIDEOS), 3):
-    row_demos = DEMO_VIDEOS[row_start:row_start + 3]
-    # 3 content cols with spacer cols between: [content, gap, content, gap, content]
-    all_cols = st.columns([1, 0.4, 1, 0.4, 1], gap="small")
-    demo_cols = [all_cols[0], all_cols[2], all_cols[4]]
-    for i, demo in enumerate(row_demos):
-        video_path = DEMOS_DIR / demo["file"]
-        thumb_path = BASE_DIR / demo.get("pdf_thumb", "")
-        if not video_path.exists():
-            continue
-        topic_color = TOPIC_COLORS.get(demo["topic"], "#fd4816")
-        with demo_cols[i]:
-            st.markdown(f"""
-            <div style="margin-bottom:8px;">
-              <span class="vid-drug" style="font-size:14px;">{demo["drug"]}</span>
-              <span class="t-badge" style="background:{topic_color}12;color:{topic_color};border:1px solid {topic_color}33;margin-left:6px;font-size:10px;">{demo["topic"]}</span>
-            </div>
-            """, unsafe_allow_html=True)
-            if thumb_path.exists():
-                st.markdown(f"""
-                <div class="demo-transform">
-                  <div class="demo-pdf-side">
-                    <img src="data:image/png;base64,{_img_b64(thumb_path)}" class="demo-pdf-img">
-                    <div class="demo-pages">{demo.get("pages", "?")}‑page PDF</div>
-                  </div>
-                  <div class="demo-arrow-small">→</div>
-                </div>
-                """, unsafe_allow_html=True)
-            st.video(str(video_path))
-            st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
-    st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
+st.markdown("""
+<span class="s-eyebrow">Why SwishX</span>
+<div class="s-title">The fastest path from dossier to doctor.</div>
+<p class="s-sub">One platform to create, personalise, and distribute product content across your entire launch ecosystem — on Day 1, not Day 30.</p>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="vp-grid">
+    <div class="vp-card">
+        <span class="vp-num">01</span>
+        <div class="vp-title">Upload your dossier. Get a reel in minutes.</div>
+        <p class="vp-desc">Your product PDF becomes a clinically verified, narrated video — MOA, trial data, dosing, safety. Ready to share before your competitor finishes their agency brief.</p>
+    </div>
+    <div class="vp-card">
+        <span class="vp-num">02</span>
+        <div class="vp-title">Reach doctors, distributors and retailers. All at once.</div>
+        <p class="vp-desc">Push the reel through our Marketing Hub — WhatsApp-first, segmented by specialty, geography and channel tier. AI-optimised send times. UCPMP-compliant workflows.</p>
+    </div>
+    <div class="vp-card">
+        <span class="vp-num">03</span>
+        <div class="vp-title">White-labelled. Branded. Launch-ready on Day 1.</div>
+        <p class="vp-desc">Your brand name, your logo, your messaging — generated from your own dossier. The brands that show up first with a compelling story own doctor mindshare. Everyone else plays catch-up.</p>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown('<div class="section-gap"></div>', unsafe_allow_html=True)
+st.markdown('<hr class="rule">', unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# GENERATE YOUR OWN
+# GENERATE YOUR REEL — moved up, right after value props
 # ══════════════════════════════════════════════════════════════════════════════
 
-st.markdown('<hr class="section-rule" id="try-it">', unsafe_allow_html=True)
-st.markdown('<div class="s-eyebrow">Try it yourself</div>', unsafe_allow_html=True)
-st.markdown('<div class="s-title">Generate a reel from any drug PDF</div>', unsafe_allow_html=True)
-st.markdown(
-    '<div class="s-sub">Upload any drug PDF — your reel is ready in under 5 minutes</div>',
-    unsafe_allow_html=True,
-)
+st.markdown('<div class="section-gap" id="generate"></div>', unsafe_allow_html=True)
+
+if PRESET_COMPANY_NAME:
+    st.markdown(f'<span class="s-eyebrow">Generate your reel</span>', unsafe_allow_html=True)
+    st.markdown(f'<div class="s-title">{PRESET_COMPANY_NAME}\'s semaglutide launch content starts here.</div>', unsafe_allow_html=True)
+    st.markdown(f'<p class="s-sub">Upload your product dossier or pick a sample — your branded, narrated reel is ready in under 5 minutes.</p>', unsafe_allow_html=True)
+else:
+    st.markdown('<span class="s-eyebrow">Try it yourself</span>', unsafe_allow_html=True)
+    st.markdown('<div class="s-title">Generate a reel from any drug dossier.</div>', unsafe_allow_html=True)
+    st.markdown('<p class="s-sub">Upload any pharma PDF — your clinically verified, narrated video reel is ready in under 5 minutes.</p>', unsafe_allow_html=True)
 
 if "generating" not in st.session_state:
     st.session_state.generating = False
 if "pipeline_result" not in st.session_state:
     st.session_state.pipeline_result = None
 
-# Safety valve: if generation was running but the process was killed (e.g. OOM),
-# the flag stays stuck. Reset it so the app doesn't crash-loop.
 if st.session_state.generating:
     gen_start = st.session_state.get("gen_start_time", 0)
-    if time.time() - gen_start > 600:  # 10 min max — pipeline should never take this long
+    if time.time() - gen_start > 600:
         st.session_state.generating = False
 
 is_generating = st.session_state.generating
@@ -663,7 +618,7 @@ is_generating = st.session_state.generating
 left, right = st.columns([1, 1], gap="large")
 
 with left:
-    st.markdown('<div class="form-label">① Choose a PDF</div>', unsafe_allow_html=True)
+    st.markdown('<span class="form-label">① Choose a PDF</span>', unsafe_allow_html=True)
     existing_pdfs = (
         sorted(PDFS_DIR.glob("*.pdf")) + sorted(PDFS_DIR.glob("*.PDF"))
         if PDFS_DIR.exists() else []
@@ -695,15 +650,15 @@ with left:
             st.info("No sample PDFs available")
 
     st.markdown("<div style='height:.8rem'></div>", unsafe_allow_html=True)
-    st.markdown('<div class="form-label">② Focus (optional)</div>', unsafe_allow_html=True)
+    st.markdown('<span class="form-label">② Focus (optional)</span>', unsafe_allow_html=True)
     guidance = st.text_area(
         "focus", label_visibility="collapsed",
-        placeholder="e.g. Emphasise pain relief for elderly patients",
+        placeholder="e.g. Emphasise cardiovascular benefits for cardiologists",
         height=80,
         disabled=is_generating,
     )
     st.markdown("<div style='height:.4rem'></div>", unsafe_allow_html=True)
-    st.markdown('<div class="form-label">③ Company Logo</div>', unsafe_allow_html=True)
+    st.markdown('<span class="form-label">③ Company Logo</span>', unsafe_allow_html=True)
     company_logo_path = ""
     if PRESET_LOGO_PATH and PRESET_LOGO_PATH.exists():
         st.image(str(PRESET_LOGO_PATH), width=160)
@@ -720,36 +675,34 @@ with left:
             company_logo_path = str(logo_save)
 
 with right:
-    st.markdown('<div class="form-label">④ Configure</div>', unsafe_allow_html=True)
-
+    st.markdown('<span class="form-label">④ Configure</span>', unsafe_allow_html=True)
     profile = st.selectbox(
         "Audience",
         ["sales_executive", "stockist", "retailer", "doctor", "all"],
         format_func=lambda x: {
-            "sales_executive": "🤝  Sales Executive / MR",
-            "stockist":        "📦  Stockist",
-            "retailer":        "🏪  Retailer / Chemist",
-            "doctor":          "👨‍⚕️  Doctor",
-            "all":             "👥  All Profiles",
+            "sales_executive": "Sales Executive / MR",
+            "stockist":        "Stockist",
+            "retailer":        "Retailer / Chemist",
+            "doctor":          "Doctor / HCP",
+            "all":             "All Profiles",
         }[x],
         disabled=is_generating,
     )
     topic_entries = load_topic_map(profile)
-    topic_keys = [t["key"] for t in topic_entries]
-    topic_labels = {t["key"]: t["label"] for t in topic_entries}
+    topic_keys    = [t["key"] for t in topic_entries]
+    topic_labels  = {t["key"]: t["label"] for t in topic_entries}
     topic = st.selectbox(
-        "Topic",
-        topic_keys,
+        "Topic", topic_keys,
         format_func=lambda x: topic_labels.get(x, x),
         key=f"topic_{profile}",
         disabled=is_generating,
     )
     voice_map = {
-        "Gaurav — Professional, Calm":    "gaurav",
-        "Suyash — Calm Explainer":        "suyash",
+        "Gaurav — Professional, Calm":     "gaurav",
+        "Suyash — Calm Explainer":         "suyash",
         "Sridhar — Natural, Professional": "sridhar",
-        "Ruhaan — Clear, Cheerful":       "ruhaan",
-        "Ishaan — Warm E-Learning":       "ishaan",
+        "Ruhaan — Clear, Cheerful":        "ruhaan",
+        "Ishaan — Warm E-Learning":        "ishaan",
     }
     voice = voice_map[st.selectbox("Voice", list(voice_map.keys()), disabled=is_generating)]
     language_label = st.radio("Language", ["English", "Hindi"], horizontal=True, disabled=is_generating)
@@ -759,7 +712,7 @@ with right:
 
 st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
 generate = st.button(
-    "⚡  Generating…" if is_generating else "⚡  Generate Video Reel",
+    "Generating…" if is_generating else "Generate Video Reel  →",
     type="primary",
     disabled=(pdf_path is None or is_generating),
     use_container_width=True,
@@ -784,12 +737,12 @@ if generate and not is_generating:
 if is_generating:
     config = PipelineConfig(**st.session_state.pipeline_config)
 
-    TOTAL_ESTIMATE = 330  # ~5.5 min total pipeline
+    TOTAL_ESTIMATE = 330
     STEP_META = {
         "extract":   ("Reading your PDF",          "Extracting all text, drug names, and data from the document…"),
         "analyze":   ("Understanding the content",  "Mapping indications, mechanism, dosage, and safety data…"),
         "script":    ("Writing the script",         "Crafting a narrative tailored to your audience and topic…"),
-        "media":     ("Bringing it to life",        "Generating visuals for each scene and recording the voiceover — the longest step…"),
+        "media":     ("Bringing it to life",        "Generating visuals for each scene and recording the voiceover…"),
         "stitch":    ("Assembling the video",       "Combining scenes, transitions, audio, and branding…"),
         "subtitles": ("Final touches",              "Adding subtitles and polishing the reel…"),
     }
@@ -802,14 +755,17 @@ if is_generating:
         video_area = st.empty()
         video_area.markdown("""
         <div class="video-skeleton">
-          <div class="skeleton-icon">🎬</div>
-          <div class="skeleton-text">Your reel is being crafted…</div>
+          <svg width="32" height="32" fill="none" viewBox="0 0 24 24" style="color:#ddd;">
+            <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M10 9l5 3-5 3V9z" fill="currentColor"/>
+          </svg>
+          <div class="sk-text">Your reel is being crafted…</div>
         </div>
         """, unsafe_allow_html=True)
         download_area = st.empty()
 
     with out_right:
-        status_box = st.empty()
+        status_box   = st.empty()
         progress_bar = st.progress(0)
         st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
         scol1, scol2 = st.columns(2)
@@ -823,37 +779,35 @@ if is_generating:
                     unsafe_allow_html=True,
                 )
 
-    run_start    = time.time()
-    cur_step     = [None]
-    step_start   = [time.time()]
+    run_start  = time.time()
+    cur_step   = [None]
+    step_start = [time.time()]
 
     def _ft(s):
         s = max(0, int(s))
         return f"{s}s" if s < 60 else f"{s // 60}m {s % 60:02d}s"
 
     def _render_status(step, pct, message=""):
-        meta = STEP_META.get(step, (step, ""))
-        label = meta[0]
-        desc = message if message else meta[1]
-        elapsed = time.time() - run_start
+        meta      = STEP_META.get(step, (step, ""))
+        label     = meta[0]
+        desc      = message if message else meta[1]
+        elapsed   = time.time() - run_start
         remaining = max(0, TOTAL_ESTIMATE - elapsed)
-        pct_i = int(min(pct, 1.0) * 100)
+        pct_i     = int(min(pct, 1.0) * 100)
         status_box.markdown(f"""
-        <div style="background:#f7f7f8; border:1px solid #e5e5e5; border-left:3px solid #fd4816;
-                    border-radius:10px; padding:1.1rem 1.3rem; margin-bottom:.3rem;">
+        <div style="background:#fafafa; border:1px solid rgba(0,0,0,0.08); border-left:3px solid #fd4816;
+                    border-radius:10px; padding:1.1rem 1.3rem; margin-bottom:.3rem; font-family:'Figtree',sans-serif;">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:.5rem;">
             <div>
-              <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; color:#111111; margin-bottom:5px;">
+              <div style="font-weight:700; font-size:15px; color:#111; margin-bottom:5px;">
                 <span class="spin-dot">⏳</span>&nbsp; {label}
               </div>
-              <div style="font-family:'Inter',sans-serif; font-size:13px; color:#777777; max-width:460px;">
-                {desc}
-              </div>
+              <div style="font-size:13px; color:#777; max-width:460px; line-height:1.6;">{desc}</div>
             </div>
             <div style="text-align:right; flex-shrink:0;">
-              <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.1rem; color:#fd4816;">{pct_i}%</div>
-              <div style="font-family:'Inter',sans-serif; font-size:11px; color:#aaaaaa; margin-top:2px;">{_ft(elapsed)} elapsed</div>
-              <div style="font-family:'Inter',sans-serif; font-size:11px; color:#aaaaaa; margin-top:1px;">~{_ft(remaining)} remaining</div>
+              <div style="font-weight:800; font-size:1.2rem; color:#fd4816;">{pct_i}%</div>
+              <div style="font-size:11px; color:#aaa; margin-top:2px;">{_ft(elapsed)} elapsed</div>
+              <div style="font-size:11px; color:#aaa; margin-top:1px;">~{_ft(remaining)} remaining</div>
             </div>
           </div>
         </div>
@@ -861,10 +815,10 @@ if is_generating:
 
     def on_progress(step, message, pct):
         if cur_step[0] and cur_step[0] != step and cur_step[0] in step_ui:
-            el = time.time() - step_start[0]
+            el  = time.time() - step_start[0]
             lbl = STEP_META.get(cur_step[0], (cur_step[0],))[0]
             step_ui[cur_step[0]].markdown(
-                f'<div class="p-step done">✓ {lbl} <span style="color:#cccccc;font-size:11px">({_ft(el)})</span></div>',
+                f'<div class="p-step done">✓ {lbl} <span style="color:#ccc;font-size:11px">({_ft(el)})</span></div>',
                 unsafe_allow_html=True,
             )
         if cur_step[0] != step:
@@ -880,12 +834,11 @@ if is_generating:
 
     result = run_pipeline(config, on_progress=on_progress)
 
-    # Finalise progress
     if cur_step[0] and cur_step[0] in step_ui:
-        el = time.time() - step_start[0]
+        el  = time.time() - step_start[0]
         lbl = STEP_META.get(cur_step[0], (cur_step[0],))[0]
         step_ui[cur_step[0]].markdown(
-            f'<div class="p-step done">✓ {lbl} <span style="color:#cccccc;font-size:11px">({_ft(el)})</span></div>',
+            f'<div class="p-step done">✓ {lbl} <span style="color:#ccc;font-size:11px">({_ft(el)})</span></div>',
             unsafe_allow_html=True,
         )
     progress_bar.progress(1.0)
@@ -893,17 +846,13 @@ if is_generating:
 
     status_box.markdown(f"""
     <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:3px solid #16a34a;
-                border-radius:10px; padding:1.1rem 1.3rem; margin-bottom:.3rem;">
+                border-radius:10px; padding:1.1rem 1.3rem; margin-bottom:.3rem; font-family:'Figtree',sans-serif;">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem;">
         <div>
-          <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; color:#16a34a; margin-bottom:3px;">
-            ✓ &nbsp;Your reel is ready
-          </div>
-          <div style="font-family:'Inter',sans-serif; font-size:13px; color:#999999;">
-            Generated in {_ft(total)}
-          </div>
+          <div style="font-weight:700; font-size:15px; color:#16a34a; margin-bottom:3px;">✓ &nbsp;Your reel is ready</div>
+          <div style="font-size:13px; color:#999;">Generated in {_ft(total)}</div>
         </div>
-        <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.1rem; color:#16a34a;">100%</div>
+        <div style="font-weight:800; font-size:1.2rem; color:#16a34a;">100%</div>
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -925,7 +874,7 @@ elif st.session_state.pipeline_result is not None:
         with out_left:
             st.video(result["video_path"])
             st.download_button(
-                "⬇  Download MP4",
+                "Download MP4",
                 data=Path(result["video_path"]).read_bytes(),
                 file_name=Path(result["video_path"]).name,
                 mime="video/mp4",
@@ -933,11 +882,9 @@ elif st.session_state.pipeline_result is not None:
         with out_right:
             st.markdown("""
             <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:3px solid #16a34a;
-                        border-radius:10px; padding:1.1rem 1.3rem;">
-              <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; color:#16a34a; margin-bottom:3px;">
-                ✓ &nbsp;Your reel is ready
-              </div>
-              <div style="font-family:'Inter',sans-serif; font-size:13px; color:#999999;">
+                        border-radius:10px; padding:1.1rem 1.3rem; font-family:'Figtree',sans-serif;">
+              <div style="font-weight:700; font-size:15px; color:#16a34a; margin-bottom:3px;">✓ &nbsp;Your reel is ready</div>
+              <div style="font-size:13px; color:#999; line-height:1.6;">
                 Download this reel before generating another — it will be replaced.
               </div>
             </div>
@@ -954,13 +901,56 @@ elif st.session_state.pipeline_result is not None:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# DEMO REELS — at the bottom
+# ══════════════════════════════════════════════════════════════════════════════
+
+st.markdown('<div class="section-gap"></div>', unsafe_allow_html=True)
+st.markdown('<hr class="rule" id="demo-reels">', unsafe_allow_html=True)
+st.markdown('<div class="section-gap"></div>', unsafe_allow_html=True)
+
+st.markdown("""
+<span class="s-eyebrow">See it in action</span>
+<div class="s-title">Dossier in. Reel out.</div>
+<p class="s-sub">Sample reels generated entirely from product PDFs — narrated, clinically verified, ready to share. No agency involved.</p>
+""", unsafe_allow_html=True)
+
+for row_start in range(0, len(DEMO_VIDEOS), 3):
+    row_demos = DEMO_VIDEOS[row_start:row_start + 3]
+    all_cols  = st.columns([1, 0.3, 1, 0.3, 1], gap="small")
+    demo_cols = [all_cols[0], all_cols[2], all_cols[4]]
+    for i, demo in enumerate(row_demos):
+        video_path = DEMOS_DIR / demo["file"]
+        thumb_path = BASE_DIR / demo.get("pdf_thumb", "")
+        if not video_path.exists():
+            continue
+        topic_color = TOPIC_COLORS.get(demo["topic"], "#fd4816")
+        with demo_cols[i]:
+            st.markdown(f"""
+            <div style="margin-bottom:10px;">
+              <span class="vid-label">{demo["drug"]}</span>&nbsp;
+              <span class="t-badge" style="background:{topic_color}12; color:{topic_color}; border:1px solid {topic_color}28; font-size:10px;">{demo["topic"]}</span>
+            </div>
+            """, unsafe_allow_html=True)
+            if thumb_path.exists():
+                st.markdown(f"""
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                  <img src="data:image/png;base64,{_img_b64(thumb_path)}" class="demo-pdf-img">
+                  <span class="demo-arrow">→</span>
+                </div>
+                """, unsafe_allow_html=True)
+            st.video(str(video_path))
+            st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:.4rem'></div>", unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # FOOTER
 # ══════════════════════════════════════════════════════════════════════════════
 
 st.markdown("""
-<hr style="border:none; border-top:1px solid #e5e5e5; margin:3rem 0 0;">
-<div style="text-align:center; padding:1.5rem 0 1rem; font-size:11px; color:#aaaaaa;
-            font-family:'Montserrat',sans-serif; letter-spacing:.5px;">
-  SwishX © 2026
+<hr style="border:none; border-top:1px solid rgba(0,0,0,0.08); margin:3rem 0 0;">
+<div style="text-align:center; padding:1.5rem 0 1rem; font-size:11px; color:#bbb;
+            font-family:'Figtree',sans-serif; letter-spacing:1px; font-weight:500;">
+  SWISHX &copy; 2026
 </div>
 """, unsafe_allow_html=True)
