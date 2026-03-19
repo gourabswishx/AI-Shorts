@@ -1,6 +1,29 @@
 {
-  "demo": {
-    "name": "Demo Company",
-    "logo": "demo.png"
-  }
+  "emcure":    { "name": "Emcure Pharmaceuticals",     "logo": "emcure.png" },
+  "drreddys":  { "name": "Dr. Reddy's Laboratories",   "logo": "drreddys.png" },
+  "zydus":     { "name": "Zydus Healthcare",            "logo": "zydus.png" },
+  "corona":    { "name": "Corona Remedies",             "logo": "corona.png" },
+  "lloyd":     { "name": "Lloyd Pharma",                "logo": "lloyd.png" },
+  "alkem":     { "name": "Alkem Laboratories",          "logo": "alkem.png" },
+  "natco":     { "name": "Natco Pharma" },
+  "ajanta":    { "name": "Ajanta Pharma",               "logo": "ajanta.png" },
+  "mankind":   { "name": "Mankind Pharma" },
+  "torrent":   { "name": "Torrent Pharmaceuticals",     "logo": "torrent.png" },
+  "anthem":    { "name": "Anthem Biopharma" },
+  "macleods":  { "name": "Macleods Pharmaceuticals",   "logo": "macleods.svg" },
+  "themis":    { "name": "Themis Medicare Ltd",         "logo": "themis.png" },
+  "microlabs": { "name": "Micro Labs",                  "logo": "microlabs.jpg" },
+  "unison":    { "name": "Unison Pharma",               "logo": "unison.jpg" },
+  "glenmark":  { "name": "Glenmark Pharmaceuticals",   "logo": "glenmark.png" },
+  "lupin":     { "name": "Lupin Pharmaceuticals",       "logo": "lupin.png" },
+  "msn":       { "name": "MSN Laboratories",            "logo": "msn.png" },
+  "aristo":    { "name": "Aristo Pharma",               "logo": "aristo.png" },
+  "akums":     { "name": "Akums Drugs & Pharmaceuticals", "logo": "akums.webp" },
+  "vida":      { "name": "Vida Laboratories" },
+  "alembic":   { "name": "Alembic Pharmaceuticals",    "logo": "alembic.png" },
+  "cuelabs":   { "name": "Cue Labs Pharma" },
+  "amon":      { "name": "Amon Biotech" },
+  "blisson":   { "name": "Blisson Medica" },
+  "sunpharma": { "name": "Sun Pharmaceutical Industries", "logo": "sunpharma.png" },
+  "intas":     { "name": "Intas Pharmaceuticals",       "logo": "intas.png" }
 }
