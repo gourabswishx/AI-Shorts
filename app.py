@@ -161,8 +161,8 @@ label, input, select, textarea, button {
 .hero-title .accent { color: #fd4816; }
 .hero-sub {
     font-size: 16px;
-    font-weight: 600;
-    color: #333333;
+    font-weight: 400;
+    color: #555555;
     line-height: 1.75;
     margin: 0 0 36px;
     max-width: 480px;
@@ -510,8 +510,8 @@ with hero_left:
             f"The patent expires this week. Doctors will prescribe the first "
             f"brand that reaches them with a clear, compelling story, "
             f"not the one that sends a 40-page PDF. "
-            f"We've built {PRESET_COMPANY_NAME}'s launch content. Generate your branded "
-            f"reel in minutes and push it to HCPs, distributors, and retailers on Day 1."
+            f"We've built {PRESET_COMPANY_NAME}'s launch content. "
+            f"<strong>Generate your branded reel in minutes and push it to HCPs, distributors, and retailers on Day 1.</strong>"
         )
     else:
         _eyebrow = "PHARMA CONTENT, REIMAGINED"
