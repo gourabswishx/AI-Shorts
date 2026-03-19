@@ -506,6 +506,31 @@ div[data-testid="stToast"]             { top: 1rem !important; bottom: auto !imp
 video::-webkit-media-controls-download-button { display: none !important; }
 video::-webkit-media-controls-enclosure { overflow: hidden !important; }
 video::-webkit-media-controls-panel { width: calc(100% + 30px) !important; }
+
+/* ── Mobile responsive ── */
+@media (max-width: 768px) {
+    div[data-testid="stMainBlockContainer"] {
+        padding: 0 1rem 4rem !important;
+    }
+    /* Stack hero columns */
+    div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+        min-width: 100% !important;
+        width: 100% !important;
+    }
+    .hero-section { padding: 1.5rem 0 2rem; }
+    .hero-title { font-size: 2rem !important; letter-spacing: -1px; }
+    .s-title { font-size: 1.5rem !important; }
+    /* VP cards: single column on mobile */
+    .vp-grid {
+        grid-template-columns: 1fr !important;
+    }
+    /* Demo reels: single column */
+    div[data-testid="stHorizontalBlock"]:has(.demo-pdf-img) > div[data-testid="stColumn"] {
+        min-width: 100% !important;
+    }
+    .hero-sub { max-width: 100% !important; font-size: 15px; }
+    .s-sub { max-width: 100% !important; }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -550,7 +575,7 @@ with hero_left:
         <div class="hero-title">{_title}</div>
         <p class="hero-sub">{_sub}</p>
         <div class="hero-cta-row">
-            <a href="#generate" class="btn-primary">Create Your MagicReels &nbsp;↓</a>
+            <a href="#generate" class="btn-primary">Create Your MagicReels&#8482; &nbsp;↓</a>
         </div>
         <div class="magic-badge">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
@@ -748,16 +773,21 @@ with right:
     voice = voice_map[st.selectbox("Voice", list(voice_map.keys()), disabled=is_generating)]
     language_label = st.radio("Language", ["English", "Hindi"], horizontal=True, disabled=is_generating)
     language = "hi" if language_label == "Hindi" else "en"
-    include_quiz = st.checkbox("Include quiz + gamification", value=True, disabled=is_generating)
+    include_quiz = st.checkbox(
+        "Include quiz + gamification", value=True, disabled=is_generating,
+        help="Adds an interactive quiz and a points-based engagement layer to your reel. Doctors and MRs earn scores as they watch — proven to boost completion rates and recall.",
+    )
     mode = "demo" if include_quiz else "production"
 
 st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
 generate = st.button(
-    "Generating…" if is_generating else "Generate Video Reel  →",
+    "Generating…" if is_generating else "Get Your MagicReel™ for Free",
     type="primary",
     disabled=(pdf_path is None or is_generating),
     use_container_width=True,
 )
+if not is_generating and st.session_state.pipeline_result is None:
+    st.markdown('<p style="text-align:center; font-size:13px; color:#999; margin-top:8px; font-family:\'Figtree\',sans-serif;">See more examples below.</p>', unsafe_allow_html=True)
 
 if generate and not is_generating:
     st.session_state.generating = True
@@ -945,13 +975,11 @@ elif st.session_state.pipeline_result is not None:
 # DEMO REELS
 # ══════════════════════════════════════════════════════════════════════════════
 
-st.markdown('<div class="section-gap"></div>', unsafe_allow_html=True)
-st.markdown('<hr class="rule" id="demo-reels">', unsafe_allow_html=True)
-st.markdown('<div class="section-gap"></div>', unsafe_allow_html=True)
+st.markdown('<div class="section-gap-sm" id="demo-reels"></div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="reveal">
-<span class="s-eyebrow">See it in action</span>
+<span class="s-eyebrow" style="text-transform:none">Explore Real Life MagicReel&#8482; Outcomes 👇🏻</span>
 <div class="s-title">Dossier in. Reel out.</div>
 <p class="s-sub">Sample reels generated entirely from product PDFs: narrated, clinically verified, ready to share. No agency involved.</p>
 </div>
