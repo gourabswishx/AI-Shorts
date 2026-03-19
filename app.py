@@ -135,12 +135,17 @@ label, input, select, textarea, button {
     padding: 5rem 0 3.5rem;
 }
 .hero-eyebrow {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 3.5px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
     color: #fd4816;
-    margin-bottom: 22px;
+    background: rgba(253,72,22,0.07);
+    border: 1px solid rgba(253,72,22,0.3);
+    border-radius: 999px;
+    padding: 5px 14px;
+    margin-bottom: 24px;
     display: block;
 }
 .hero-title {
@@ -247,12 +252,17 @@ label, input, select, textarea, button {
 
 /* ── Section header ── */
 .s-eyebrow {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 3.5px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
     color: #fd4816;
-    margin-bottom: 12px;
+    background: rgba(253,72,22,0.07);
+    border: 1px solid rgba(253,72,22,0.3);
+    border-radius: 999px;
+    padding: 5px 14px;
+    margin-bottom: 16px;
     display: block;
 }
 .s-title {
