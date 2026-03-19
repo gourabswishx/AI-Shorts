@@ -310,6 +310,22 @@ label, input, select, textarea, button {
     line-height: 1.7;
     margin: 0;
 }
+.vp-icon {
+    display: block;
+    margin-bottom: 20px;
+}
+.vp-icon svg {
+    width: 48px;
+    height: 48px;
+    display: block;
+}
+.vp-logo {
+    height: 36px;
+    max-width: 140px;
+    margin-bottom: 20px;
+    display: block;
+    object-fit: contain;
+}
 
 /* ── Section spacing ── */
 .section-gap { height: 5rem; }
@@ -545,19 +561,33 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("""
+_upload_svg    = (COMPANIES_DIR / "upload.svg").read_text()
+_reach_svg     = (COMPANIES_DIR / "reach-doctor.svg").read_text()
+
+if PRESET_LOGO_PATH and PRESET_LOGO_PATH.exists():
+    _ext = PRESET_LOGO_PATH.suffix.lower().lstrip(".")
+    _mime = "image/svg+xml" if _ext == "svg" else ("image/jpeg" if _ext in ("jpg", "jpeg") else f"image/{_ext}")
+    _logo_b64_vp = base64.b64encode(PRESET_LOGO_PATH.read_bytes()).decode()
+    _card3_icon = f'<img class="vp-logo" src="data:{_mime};base64,{_logo_b64_vp}" alt="{PRESET_COMPANY_NAME}" />'
+else:
+    _card3_icon = ""
+
+st.markdown(f"""
 <div class="vp-grid">
     <div class="vp-card reveal">
+        <span class="vp-icon">{_upload_svg}</span>
         <span class="vp-num">01</span>
         <div class="vp-title">Upload your dossier. Get a reel in minutes.</div>
         <p class="vp-desc">Your product PDF becomes a clinically verified, narrated video: MOA, trial data, dosing, safety. Ready to share before your competitor finishes their agency brief.</p>
     </div>
     <div class="vp-card reveal reveal-delay-1">
+        <span class="vp-icon">{_reach_svg}</span>
         <span class="vp-num">02</span>
         <div class="vp-title">Reach doctors, distributors and retailers. All at once.</div>
         <p class="vp-desc">Push the reel through our Marketing Hub: WhatsApp-first, segmented by specialty, geography and channel tier. AI-optimised send times. UCPMP-compliant workflows.</p>
     </div>
     <div class="vp-card reveal reveal-delay-2">
+        {_card3_icon}
         <span class="vp-num">03</span>
         <div class="vp-title">White-labelled. Branded. Launch-ready on Day 1.</div>
         <p class="vp-desc">Your brand name, your logo, your messaging, generated from your own dossier. The brands that show up first with a compelling story own doctor mindshare. Everyone else plays catch-up.</p>
