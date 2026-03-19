@@ -1,28 +1,40 @@
 {
-  "emcure":    { "name": "Emcure",          "logo": "emcure.png",    "video_url": "" },
-  "drreddys":  { "name": "Dr. Reddy's",     "logo": "drreddys.png",  "video_url": "" },
+  "emcure":    { "name": "Emcure",          "logo": "emcure.png",    "video_url": "",
+    "brands": { "povitzra":    { "name": "Povitzra",    "video_url": "" } }
+  },
+  "drreddys":  { "name": "Dr. Reddy's",     "logo": "drreddys.png",  "video_url": "",
+    "brands": { "obeda":       { "name": "Obeda",       "video_url": "" } }
+  },
   "zydus":     { "name": "Zydus",           "logo": "zydus.png",     "video_url": "",
     "brands": {
       "mashema":    { "name": "Mashema",    "video_url": "" },
       "semanglyn":  { "name": "Semanglyn",  "video_url": "" }
     }
   },
-  "corona":    { "name": "Corona Remedies", "logo": "corona.png",    "video_url": "" },
-  "lloyd":     { "name": "Lloyd",           "logo": "lloyd.png",     "video_url": "" },
+  "corona":    { "name": "Corona Remedies", "logo": "corona.png",    "video_url": "",
+    "brands": { "wyntide":     { "name": "Wyntide",     "video_url": "" } }
+  },
+  "lloyd":     { "name": "Lloyd",           "logo": "lloyd.png",     "video_url": "",
+    "brands": { "semaglip":    { "name": "Semaglip",    "video_url": "" } }
+  },
   "alkem":     { "name": "Alkem",           "logo": "alkem.png",     "video_url": "",
     "brands": {
       "semaglide":  { "name": "Semaglide",  "video_url": "" },
       "semavic":    { "name": "Semavic",    "video_url": "" }
     }
   },
-  "natco":     { "name": "Natco",                                     "video_url": "" },
+  "natco":     { "name": "Natco",                                     "video_url": "",
+    "brands": { "semanat":     { "name": "Semanat",     "video_url": "" } }
+  },
   "ajanta":    { "name": "Ajanta",          "logo": "ajanta.png",    "video_url": "",
     "brands": {
       "semafit":    { "name": "Semafit",    "video_url": "" },
       "semanta":    { "name": "Semanta",    "video_url": "" }
     }
   },
-  "mankind":   { "name": "Mankind",                                   "video_url": "" },
+  "mankind":   { "name": "Mankind",                                   "video_url": "",
+    "brands": { "semakind":    { "name": "Semakind",    "video_url": "" } }
+  },
   "torrent":   { "name": "Torrent",         "logo": "torrent.png",   "video_url": "",
     "brands": {
       "semastar":   { "name": "Semastar",   "video_url": "" },
@@ -30,41 +42,67 @@
       "zepsema":    { "name": "Zepsema",    "video_url": "" }
     }
   },
-  "anthem":    { "name": "Anthem",                                    "video_url": "" },
+  "anthem":    { "name": "Anthem",                                    "video_url": "",
+    "brands": { "semaglut":    { "name": "Semaglut",    "video_url": "" } }
+  },
   "macleods":  { "name": "Macleods",        "logo": "macleods.svg",  "video_url": "",
     "brands": {
       "semalite":   { "name": "Semalite",   "video_url": "" },
       "semeday":    { "name": "Semeday",    "video_url": "" }
     }
   },
-  "themis":    { "name": "Themis Medicare", "logo": "themis.png",    "video_url": "" },
-  "microlabs": { "name": "Micro Labs",      "logo": "microlabs.jpg", "video_url": "" },
-  "unison":    { "name": "Unison Pharma",   "logo": "unison.jpg",    "video_url": "" },
-  "glenmark":  { "name": "Glenmark",        "logo": "glenmark.png",  "video_url": "" },
-  "lupin":     { "name": "Lupin",           "logo": "lupin.png",     "video_url": "" },
-  "msn":       { "name": "MSN Labs",        "logo": "msn.png",       "video_url": "" },
+  "themis":    { "name": "Themis Medicare", "logo": "themis.png",    "video_url": "",
+    "brands": { "semathem":    { "name": "Semathem",    "video_url": "" } }
+  },
+  "microlabs": { "name": "Micro Labs",      "logo": "microlabs.jpg", "video_url": "",
+    "brands": { "semapride":   { "name": "Semapride",   "video_url": "" } }
+  },
+  "unison":    { "name": "Unison Pharma",   "logo": "unison.jpg",    "video_url": "",
+    "brands": { "semastrike":  { "name": "Semastrike",  "video_url": "" } }
+  },
+  "glenmark":  { "name": "Glenmark",        "logo": "glenmark.png",  "video_url": "",
+    "brands": { "semazit":     { "name": "Semazit",     "video_url": "" } }
+  },
+  "lupin":     { "name": "Lupin",           "logo": "lupin.png",     "video_url": "",
+    "brands": { "semalup":     { "name": "Semalup",     "video_url": "" } }
+  },
+  "msn":       { "name": "MSN Labs",        "logo": "msn.png",       "video_url": "",
+    "brands": { "semabig":     { "name": "Semabig",     "video_url": "" } }
+  },
   "aristo":    { "name": "Aristo",          "logo": "aristo.png",    "video_url": "",
     "brands": {
       "semadirect": { "name": "Semadirect", "video_url": "" },
       "semavance":  { "name": "Semavance",  "video_url": "" }
     }
   },
-  "akums":     { "name": "Akums",           "logo": "akums.webp",    "video_url": "" },
-  "vida":      { "name": "Vida",                                      "video_url": "" },
-  "alembic":   { "name": "Alembic",         "logo": "alembic.png",   "video_url": "" },
-  "cuelabs":   { "name": "Cue Labs",                                  "video_url": "" },
-  "amon":      { "name": "Amon Biotech",                              "video_url": "" },
-  "blisson":   { "name": "Blisson Medica",                            "video_url": "" },
+  "akums":     { "name": "Akums",           "logo": "akums.webp",    "video_url": "",
+    "brands": { "semaglura":   { "name": "Semaglura",   "video_url": "" } }
+  },
+  "vida":      { "name": "Vida",                                      "video_url": "",
+    "brands": { "semaglyu":    { "name": "Semaglyu",    "video_url": "" } }
+  },
+  "alembic":   { "name": "Alembic",         "logo": "alembic.png",   "video_url": "",
+    "brands": { "semalembic":  { "name": "Semalembic",  "video_url": "" } }
+  },
+  "cuelabs":   { "name": "Cue Labs",                                  "video_url": "",
+    "brands": { "glusema":     { "name": "Glusema",     "video_url": "" } }
+  },
+  "amon":      { "name": "Amon Biotech",                              "video_url": "",
+    "brands": { "semaliv":     { "name": "Semaliv",     "video_url": "" } }
+  },
+  "blisson":   { "name": "Blisson Medica",                            "video_url": "",
+    "brands": { "sematide":    { "name": "Sematide",    "video_url": "" } }
+  },
   "sunpharma": { "name": "Sun Pharma",      "logo": "sunpharma.png", "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773923727/Noveltreat_Semaglutide_Dossier_SunPharma_doctor_intro_script_v1_video_thiuhr.mp4",
     "brands": {
       "noveltreat":  { "name": "Noveltreat",  "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773923727/Noveltreat_Semaglutide_Dossier_SunPharma_doctor_intro_script_v1_video_thiuhr.mp4" },
       "sematrinity": { "name": "Sematrinity", "video_url": "" }
     }
   },
-  "intas":     { "name": "Intas Pharma",    "logo": "intas.png",     "video_url": "" },
+  "intas":     { "name": "Intas Pharma",    "logo": "intas.png",     "video_url": "",
+    "brands": { "semarvl":     { "name": "Semarvl",     "video_url": "" } }
+  },
   "hetero":    { "name": "Hetero Healthcare",                         "video_url": "",
-    "brands": {
-      "semaglutide": { "name": "Semaglutide", "video_url": "" }
-    }
+    "brands": { "semaglutide": { "name": "Semaglutide", "video_url": "" } }
   }
 }
