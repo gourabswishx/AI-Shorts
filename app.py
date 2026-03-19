@@ -328,7 +328,7 @@ label, input, select, textarea, button {
     display: block;
 }
 .vp-title {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
     color: #111111;
     margin: 0 0 10px;
@@ -550,7 +550,7 @@ with hero_left:
         <div class="hero-title">{_title}</div>
         <p class="hero-sub">{_sub}</p>
         <div class="hero-cta-row">
-            <a href="#generate" class="btn-primary">Create your Magic Reel &nbsp;↓</a>
+            <a href="#generate" class="btn-primary">Create Your MagicReels &nbsp;↓</a>
         </div>
         <div class="magic-badge">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
@@ -564,22 +564,20 @@ with hero_left:
 with hero_right:
     if PRESET_VIDEO_URL:
         _is_mp4 = PRESET_VIDEO_URL.endswith(".mp4") or "cloudinary.com" in PRESET_VIDEO_URL
-        st.markdown('<div style="height:2rem"></div>', unsafe_allow_html=True)
-        if _is_mp4:
-            st.video(PRESET_VIDEO_URL)
-        else:
-            components.html(f"""
-            <style>
-                body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:5rem; }}
-                .video-wrap {{ position:relative; width:265px; height:471px; border-radius:12px; overflow:hidden; flex-shrink:0; }}
-                .video-wrap iframe {{ position:absolute; top:0; left:0; width:100%; height:100%; border:none; }}
-            </style>
-            <div class="video-wrap"><iframe src="{PRESET_VIDEO_URL}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
-            """, height=570)
+        _video_tag = (
+            f'<video controls playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:12px;"><source src="{PRESET_VIDEO_URL}" type="video/mp4"></video>'
+            if _is_mp4 else
+            f'<iframe src="{PRESET_VIDEO_URL}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>'
+        )
+        components.html(f"""
+        <style>
+            body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:5rem; }}
+            .vw {{ position:relative; width:240px; height:426px; border-radius:12px; overflow:hidden; flex-shrink:0; background:#000; }}
+        </style>
+        <div class="vw">{_video_tag}</div>
+        """, height=520)
     else:
         pass
-
-st.markdown('<hr class="rule">', unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -642,9 +640,9 @@ st.markdown('<div class="section-gap" id="generate"></div>', unsafe_allow_html=T
 
 _display_name = PRESET_BRAND_NAME if PRESET_BRAND_NAME else PRESET_COMPANY_NAME
 if PRESET_COMPANY_NAME:
-    st.markdown(f'<div class="reveal"><span class="s-eyebrow">Generate your MagicReel&#8482;</span><div class="s-title">{_display_name}\'s Launch Success Starts Here.</div><p class="s-sub">Upload your product dossier or pick a sample. Your branded, narrated MagicReel&#8482; is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="reveal"><span class="s-eyebrow" style="text-transform:none">Generate your MagicReel&#8482;</span><div class="s-title">{_display_name}\'s Launch Success Starts Here.</div><p class="s-sub">Upload your product dossier or pick a sample. Your branded, narrated MagicReel&#8482; is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
 else:
-    st.markdown('<div class="reveal"><span class="s-eyebrow">Generate your MagicReel&#8482;</span><div class="s-title">Generate a MagicReel&#8482; from any drug dossier.</div><p class="s-sub">Upload any pharma PDF. Your clinically verified, narrated MagicReel&#8482; is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="reveal"><span class="s-eyebrow" style="text-transform:none">Generate your MagicReel&#8482;</span><div class="s-title">Generate a MagicReel&#8482; from any drug dossier.</div><p class="s-sub">Upload any pharma PDF. Your clinically verified, narrated MagicReel&#8482; is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
 
 if "generating" not in st.session_state:
     st.session_state.generating = False
