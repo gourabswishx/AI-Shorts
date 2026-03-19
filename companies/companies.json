@@ -24,6 +24,6 @@
   "cuelabs":   { "name": "Cue Labs",                                 "video_url": "" },
   "amon":      { "name": "Amon Biotech",                             "video_url": "" },
   "blisson":   { "name": "Blisson Medica",                           "video_url": "" },
-  "sunpharma": { "name": "Sun Pharma",     "logo": "sunpharma.png", "video_url": "https://myswishclub-my.sharepoint.com/personal/vikas_goyal_swishx_com/_layouts/15/embed.aspx?UniqueId=6f1059bf-7b28-414d-828b-26d785327309&embed=%7B%22af%22%3Atrue%2C%22hvm%22%3Atrue%2C%22ust%22%3Afalse%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create" },
+  "sunpharma": { "name": "Sun Pharma",     "logo": "sunpharma.png", "video_url": "https://myswishclub.sharepoint.com/sites/swishx/_layouts/15/embed.aspx?UniqueId=d6ad8942-6841-4721-a61b-ef7dde0e7273&embed=%7B%22hvm%22%3Atrue%2C%22ust%22%3Atrue%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create" },
   "intas":     { "name": "Intas Pharma",   "logo": "intas.png",     "video_url": "" }
 }
