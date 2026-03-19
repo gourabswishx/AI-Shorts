@@ -120,19 +120,15 @@ label, input, select, textarea, button {
 ::-webkit-scrollbar-track { background: #fff; }
 ::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 2px; }
 
-/* ── Scroll animations ── */
-.reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+/* ── Load animations ── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
-.reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-.reveal-delay-1 { transition-delay: 0.08s; }
-.reveal-delay-2 { transition-delay: 0.16s; }
-.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal         { animation: fadeUp 0.65s cubic-bezier(0.16,1,0.3,1) both; }
+.reveal-delay-1 { animation-delay: 0.1s; }
+.reveal-delay-2 { animation-delay: 0.2s; }
+.reveal-delay-3 { animation-delay: 0.3s; }
 
 /* ── Hero ── */
 .hero-section {
@@ -460,21 +456,6 @@ div[data-testid="stExpander"]          { background: #f9f9f9 !important; border:
 div[data-testid="stExpander"] summary  { font-family: 'Figtree', sans-serif !important; font-weight: 600 !important; color: #222 !important; }
 div[data-testid="stToast"]             { top: 1rem !important; bottom: auto !important; }
 </style>
-<script>
-(function(){
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.12 });
-  function observe(){
-    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
-  }
-  // Run on load and after Streamlit re-renders
-  observe();
-  new MutationObserver(observe).observe(document.body, { childList: true, subtree: true });
-})();
-</script>
 """, unsafe_allow_html=True)
 
 
