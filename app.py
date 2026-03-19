@@ -575,7 +575,7 @@ with hero_left:
         <div class="hero-title">{_title}</div>
         <p class="hero-sub">{_sub}</p>
         <div class="hero-cta-row">
-            <a href="#generate" class="btn-primary">Create Your MagicReels&#8482; &nbsp;↓</a>
+            <a href="#generate" class="btn-primary">Get Your MagicReel&#8482; for Free &nbsp;↓</a>
         </div>
         <div class="magic-badge">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
@@ -597,10 +597,10 @@ with hero_right:
         components.html(f"""
         <style>
             body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:5rem; }}
-            .vw {{ position:relative; width:240px; height:426px; border-radius:12px; overflow:hidden; flex-shrink:0; background:#000; }}
+            .vw {{ position:relative; width:265px; height:470px; border-radius:12px; overflow:hidden; flex-shrink:0; background:#000; }}
         </style>
         <div class="vw">{_video_tag}</div>
-        """, height=520)
+        """, height=570)
     else:
         pass
 
@@ -775,7 +775,7 @@ with right:
     language = "hi" if language_label == "Hindi" else "en"
     include_quiz = st.checkbox(
         "Include quiz + gamification", value=True, disabled=is_generating,
-        help="Adds an interactive quiz and a points-based engagement layer to your reel. Doctors and MRs earn scores as they watch — proven to boost completion rates and recall.",
+        help="Adds an interactive quiz and a points-based engagement layer to your MagicReel™. Doctors and MRs earn scores as they watch, proven to boost completion rates and recall.",
     )
     mode = "demo" if include_quiz else "production"
 
@@ -783,7 +783,7 @@ st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
 generate = st.button(
     "Generating…" if is_generating else "Get Your MagicReel™ for Free",
     type="primary",
-    disabled=(pdf_path is None or is_generating),
+    disabled=is_generating,
     use_container_width=True,
 )
 if not is_generating and st.session_state.pipeline_result is None:
@@ -980,8 +980,8 @@ st.markdown('<div class="section-gap-sm" id="demo-reels"></div>', unsafe_allow_h
 st.markdown("""
 <div class="reveal">
 <span class="s-eyebrow" style="text-transform:none">Explore Real Life MagicReel&#8482; Outcomes 👇🏻</span>
-<div class="s-title">Dossier in. Reel out.</div>
-<p class="s-sub">Sample reels generated entirely from product PDFs: narrated, clinically verified, ready to share. No agency involved.</p>
+<div class="s-title">Dossier in. MagicReel&#8482; out.</div>
+<p class="s-sub">Sample MagicReels&#8482; generated entirely from product PDFs: narrated, clinically verified, ready to share. No agency involved.</p>
 </div>
 """, unsafe_allow_html=True)
 
