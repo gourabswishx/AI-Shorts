@@ -32,7 +32,7 @@
       "semanta":    { "name": "Semanta",    "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943875/Semanta_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_xea6mo.mp4" }
     }
   },
-  "mankind":   { "name": "Mankind",                                   "video_url": "",
+  "mankind":   { "name": "Mankind",         "logo": "Mankind-Pharma-Group.jpg", "video_url": "",
     "brands": { "semakind":    { "name": "Semakind",    "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943576/Semakind_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_dtlttn.mp4" } }
   },
   "torrent":   { "name": "Torrent",         "logo": "torrent.png",   "video_url": "",
@@ -42,7 +42,7 @@
       "zepsema":    { "name": "Zepsema",    "video_url": "" }
     }
   },
-  "anthem":    { "name": "Anthem",                                    "video_url": "",
+  "anthem":    { "name": "Anthem",          "logo": "Anthem-1.webp", "video_url": "",
     "brands": { "semaglut":    { "name": "Semaglut",    "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943511/Semaglut_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_wmlday.mp4" } }
   },
   "macleods":  { "name": "Macleods",        "logo": "macleods.svg",  "video_url": "",
@@ -78,19 +78,19 @@
   "akums":     { "name": "Akums",           "logo": "akums.webp",    "video_url": "",
     "brands": { "semaglura":   { "name": "Semaglura",   "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943478/Semaglura_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_tcpk5a.mp4" } }
   },
-  "vida":      { "name": "Vida",                                      "video_url": "",
+  "vida":      { "name": "Vida",            "logo": "vidapharmaza_logo.jpeg", "video_url": "",
     "brands": { "simaglu":     { "name": "Simaglu",     "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943448/Semaglu_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_mdfawx.mp4" } }
   },
   "alembic":   { "name": "Alembic",         "logo": "alembic.png",   "video_url": "",
     "brands": { "semalembic":  { "name": "Semalembic",  "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943620/Semalembic_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_zc4idd.mp4" } }
   },
-  "cuelabs":   { "name": "Cue Labs",                                  "video_url": "",
+  "cuelabs":   { "name": "Cue Labs",        "logo": "cuelabs_logo.jpeg", "video_url": "",
     "brands": { "glusema":     { "name": "Glusema",     "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773944999/Glusema_Semaglutide_Dossier_doctor_intro_script_v1_video_zve61y.mp4" } }
   },
-  "amon":      { "name": "Amon Biotech",                              "video_url": "",
+  "amon":      { "name": "Amon Biotech",    "logo": "Amoun.png",     "video_url": "",
     "brands": { "semaliv":     { "name": "Semaliv",     "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943716/Semaliv_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_wnitrh.mp4" } }
   },
-  "blisson":   { "name": "Blisson Medica",                            "video_url": "",
+  "blisson":   { "name": "Blisson Medica",  "logo": "blisson-logo.png", "video_url": "",
     "brands": { "sematide":    { "name": "Sematide",    "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773944150/Sematide_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_z4hbdd.mp4" } }
   },
   "sunpharma": { "name": "Sun Pharma",      "logo": "sunpharma.png", "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773923727/Noveltreat_Semaglutide_Dossier_SunPharma_doctor_intro_script_v1_video_thiuhr.mp4",
