@@ -544,8 +544,8 @@ with hero_right:
         )
         components.html(f"""
         <style>
-            body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:1rem; }}
-            .video-wrap {{ position:relative; width:260px; height:462px; border-radius:12px; overflow:hidden; flex-shrink:0; }}
+            body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:3rem; }}
+            .video-wrap {{ position:relative; width:290px; height:515px; border-radius:12px; overflow:hidden; flex-shrink:0; }}
             .video-wrap iframe, .video-wrap video {{ position:absolute; top:0; left:0; width:100%; height:100%; border:none; }}
         </style>
         <div class="video-wrap">{_media_tag}</div>
