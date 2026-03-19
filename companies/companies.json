@@ -24,6 +24,6 @@
   "cuelabs":   { "name": "Cue Labs",                                 "video_url": "" },
   "amon":      { "name": "Amon Biotech",                             "video_url": "" },
   "blisson":   { "name": "Blisson Medica",                           "video_url": "" },
-  "sunpharma": { "name": "Sun Pharma",     "logo": "sunpharma.png", "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773923727/Noveltreat_Semaglutide_Dossier_SunPharma_doctor_intro_script_v1_video_thiuhr.mp4" },
+  "sunpharma": { "name": "Sun Pharma",     "logo": "sunpharma.png", "video_url": "https://player.vimeo.com/video/1175142941?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1" },
   "intas":     { "name": "Intas Pharma",   "logo": "intas.png",     "video_url": "" }
 }
