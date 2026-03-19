@@ -79,7 +79,7 @@
     "brands": { "semaglura":   { "name": "Semaglura",   "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943478/Semaglura_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_tcpk5a.mp4" } }
   },
   "vida":      { "name": "Vida",                                      "video_url": "",
-    "brands": { "semaglyu":    { "name": "Semaglyu",    "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943448/Semaglu_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_mdfawx.mp4" } }
+    "brands": { "simaglu":     { "name": "Simaglu",     "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943448/Semaglu_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_mdfawx.mp4" } }
   },
   "alembic":   { "name": "Alembic",         "logo": "alembic.png",   "video_url": "",
     "brands": { "semalembic":  { "name": "Semalembic",  "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773943620/Semalembic_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_zc4idd.mp4" } }
