@@ -136,6 +136,7 @@ label, input, select, textarea, button {
 }
 .hero-eyebrow {
     display: inline-block;
+    width: fit-content;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.4px;
@@ -253,6 +254,7 @@ label, input, select, textarea, button {
 /* ── Section header ── */
 .s-eyebrow {
     display: inline-block;
+    width: fit-content;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.4px;
