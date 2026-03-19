@@ -1,5 +1,5 @@
 """
-SwishX — AI Shorts · Pharma Video Reel Generator
+SwishX AI Shorts · Pharma Video Reel Generator
 """
 
 import os
@@ -73,7 +73,7 @@ TOPIC_COLORS = {
 
 # ── Page config ────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="SwishX AI Shorts — Pharma Video Reels",
+    page_title="SwishX AI Shorts: Pharma Video Reels",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -119,6 +119,20 @@ label, input, select, textarea, button {
 ::-webkit-scrollbar       { width: 4px; }
 ::-webkit-scrollbar-track { background: #fff; }
 ::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 2px; }
+
+/* ── Scroll animations ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
 
 /* ── Hero ── */
 .hero-section {
@@ -446,6 +460,21 @@ div[data-testid="stExpander"]          { background: #f9f9f9 !important; border:
 div[data-testid="stExpander"] summary  { font-family: 'Figtree', sans-serif !important; font-weight: 600 !important; color: #222 !important; }
 div[data-testid="stToast"]             { top: 1rem !important; bottom: auto !important; }
 </style>
+<script>
+(function(){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  function observe(){
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  }
+  // Run on load and after Streamlit re-renders
+  observe();
+  new MutationObserver(observe).observe(document.body, { childList: true, subtree: true });
+})();
+</script>
 """, unsafe_allow_html=True)
 
 
@@ -469,7 +498,7 @@ with hero_left:
         _title   = f"35 companies.<br>Same molecule.<br><span class='accent'>{PRESET_COMPANY_NAME} needs<br>to be first.</span>"
         _sub     = (
             f"The patent expires this week. Doctors will prescribe the first "
-            f"brand that reaches them with a clear, compelling story — "
+            f"brand that reaches them with a clear, compelling story, "
             f"not the one that sends a 40-page PDF. "
             f"We've built {PRESET_COMPANY_NAME}'s launch content. Generate your branded "
             f"reel in minutes and push it to HCPs, distributors, and retailers on Day 1."
@@ -484,7 +513,7 @@ with hero_left:
         )
 
     st.markdown(f"""
-    <div class="hero-section">
+    <div class="hero-section reveal">
         <span class="hero-eyebrow">{_eyebrow}</span>
         <div class="hero-title">{_title}</div>
         <p class="hero-sub">{_sub}</p>
@@ -528,27 +557,29 @@ st.markdown('<hr class="rule">', unsafe_allow_html=True)
 st.markdown('<div class="section-gap"></div>', unsafe_allow_html=True)
 
 st.markdown("""
+<div class="reveal">
 <span class="s-eyebrow">Why SwishX</span>
 <div class="s-title">The fastest path from dossier to doctor.</div>
-<p class="s-sub">One platform to create, personalise, and distribute product content across your entire launch ecosystem — on Day 1, not Day 30.</p>
+<p class="s-sub">One platform to create, personalise, and distribute product content across your entire launch ecosystem, on Day 1, not Day 30.</p>
+</div>
 """, unsafe_allow_html=True)
 
 st.markdown("""
 <div class="vp-grid">
-    <div class="vp-card">
+    <div class="vp-card reveal">
         <span class="vp-num">01</span>
         <div class="vp-title">Upload your dossier. Get a reel in minutes.</div>
-        <p class="vp-desc">Your product PDF becomes a clinically verified, narrated video — MOA, trial data, dosing, safety. Ready to share before your competitor finishes their agency brief.</p>
+        <p class="vp-desc">Your product PDF becomes a clinically verified, narrated video: MOA, trial data, dosing, safety. Ready to share before your competitor finishes their agency brief.</p>
     </div>
-    <div class="vp-card">
+    <div class="vp-card reveal reveal-delay-1">
         <span class="vp-num">02</span>
         <div class="vp-title">Reach doctors, distributors and retailers. All at once.</div>
-        <p class="vp-desc">Push the reel through our Marketing Hub — WhatsApp-first, segmented by specialty, geography and channel tier. AI-optimised send times. UCPMP-compliant workflows.</p>
+        <p class="vp-desc">Push the reel through our Marketing Hub: WhatsApp-first, segmented by specialty, geography and channel tier. AI-optimised send times. UCPMP-compliant workflows.</p>
     </div>
-    <div class="vp-card">
+    <div class="vp-card reveal reveal-delay-2">
         <span class="vp-num">03</span>
         <div class="vp-title">White-labelled. Branded. Launch-ready on Day 1.</div>
-        <p class="vp-desc">Your brand name, your logo, your messaging — generated from your own dossier. The brands that show up first with a compelling story own doctor mindshare. Everyone else plays catch-up.</p>
+        <p class="vp-desc">Your brand name, your logo, your messaging, generated from your own dossier. The brands that show up first with a compelling story own doctor mindshare. Everyone else plays catch-up.</p>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -558,19 +589,15 @@ st.markdown('<hr class="rule">', unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# GENERATE YOUR REEL — moved up, right after value props
+# GENERATE YOUR REEL
 # ══════════════════════════════════════════════════════════════════════════════
 
 st.markdown('<div class="section-gap" id="generate"></div>', unsafe_allow_html=True)
 
 if PRESET_COMPANY_NAME:
-    st.markdown(f'<span class="s-eyebrow">Generate your reel</span>', unsafe_allow_html=True)
-    st.markdown(f'<div class="s-title">{PRESET_COMPANY_NAME}\'s semaglutide launch content starts here.</div>', unsafe_allow_html=True)
-    st.markdown(f'<p class="s-sub">Upload your product dossier or pick a sample — your branded, narrated reel is ready in under 5 minutes.</p>', unsafe_allow_html=True)
+    st.markdown(f'<div class="reveal"><span class="s-eyebrow">Generate your reel</span><div class="s-title">{PRESET_COMPANY_NAME}\'s semaglutide launch content starts here.</div><p class="s-sub">Upload your product dossier or pick a sample. Your branded, narrated reel is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
 else:
-    st.markdown('<span class="s-eyebrow">Try it yourself</span>', unsafe_allow_html=True)
-    st.markdown('<div class="s-title">Generate a reel from any drug dossier.</div>', unsafe_allow_html=True)
-    st.markdown('<p class="s-sub">Upload any pharma PDF — your clinically verified, narrated video reel is ready in under 5 minutes.</p>', unsafe_allow_html=True)
+    st.markdown('<div class="reveal"><span class="s-eyebrow">Try it yourself</span><div class="s-title">Generate a reel from any drug dossier.</div><p class="s-sub">Upload any pharma PDF. Your clinically verified, narrated video reel is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
 
 if "generating" not in st.session_state:
     st.session_state.generating = False
@@ -667,11 +694,11 @@ with right:
         disabled=is_generating,
     )
     voice_map = {
-        "Gaurav — Professional, Calm":     "gaurav",
-        "Suyash — Calm Explainer":         "suyash",
-        "Sridhar — Natural, Professional": "sridhar",
-        "Ruhaan — Clear, Cheerful":        "ruhaan",
-        "Ishaan — Warm E-Learning":        "ishaan",
+        "Gaurav: Professional, Calm":     "gaurav",
+        "Suyash: Calm Explainer":         "suyash",
+        "Sridhar: Natural, Professional": "sridhar",
+        "Ruhaan: Clear, Cheerful":        "ruhaan",
+        "Ishaan: Warm E-Learning":        "ishaan",
     }
     voice = voice_map[st.selectbox("Voice", list(voice_map.keys()), disabled=is_generating)]
     language_label = st.radio("Language", ["English", "Hindi"], horizontal=True, disabled=is_generating)
@@ -854,7 +881,7 @@ elif st.session_state.pipeline_result is not None:
                         border-radius:10px; padding:1.1rem 1.3rem; font-family:'Figtree',sans-serif;">
               <div style="font-weight:700; font-size:15px; color:#16a34a; margin-bottom:3px;">✓ &nbsp;Your reel is ready</div>
               <div style="font-size:13px; color:#999; line-height:1.6;">
-                Download this reel before generating another — it will be replaced.
+                Download this reel before generating another. It will be replaced.
               </div>
             </div>
             """, unsafe_allow_html=True)
@@ -870,7 +897,7 @@ elif st.session_state.pipeline_result is not None:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# DEMO REELS — at the bottom
+# DEMO REELS
 # ══════════════════════════════════════════════════════════════════════════════
 
 st.markdown('<div class="section-gap"></div>', unsafe_allow_html=True)
@@ -878,9 +905,11 @@ st.markdown('<hr class="rule" id="demo-reels">', unsafe_allow_html=True)
 st.markdown('<div class="section-gap"></div>', unsafe_allow_html=True)
 
 st.markdown("""
+<div class="reveal">
 <span class="s-eyebrow">See it in action</span>
 <div class="s-title">Dossier in. Reel out.</div>
-<p class="s-sub">Sample reels generated entirely from product PDFs — narrated, clinically verified, ready to share. No agency involved.</p>
+<p class="s-sub">Sample reels generated entirely from product PDFs: narrated, clinically verified, ready to share. No agency involved.</p>
+</div>
 """, unsafe_allow_html=True)
 
 for row_start in range(0, len(DEMO_VIDEOS), 3):
