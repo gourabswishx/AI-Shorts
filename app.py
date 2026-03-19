@@ -47,7 +47,11 @@ PRESET_LOGO_PATH    = (
     COMPANIES_DIR / _company_config["logo"]
     if _company_config.get("logo") else None
 )
-PRESET_VIDEO_URL    = _company_config.get("video_url", "")
+
+_brand_param  = st.query_params.get("brand", "")
+_brand_config = _company_config.get("brands", {}).get(_brand_param, {}) if _brand_param else {}
+PRESET_BRAND_NAME = _brand_config.get("name", "")
+PRESET_VIDEO_URL  = _brand_config.get("video_url", "") or _company_config.get("video_url", "")
 
 DEMO_VIDEOS = [
     {"file": "AllerDuo_intro.mp4",        "drug": "AllerDuo",    "topic": "Intro",
@@ -508,7 +512,7 @@ with hero_left:
     st.markdown('<div class="section-gap-sm"></div>', unsafe_allow_html=True)
 
     if PRESET_COMPANY_NAME:
-        _eyebrow = f"SEMAGLUTIDE LAUNCH &nbsp;·&nbsp; {PRESET_COMPANY_NAME.upper()}"
+        _eyebrow = f"SEMAGLUTIDE LAUNCH &nbsp;·&nbsp; {PRESET_COMPANY_NAME.upper()}" + (f" &nbsp;·&nbsp; {PRESET_BRAND_NAME.upper()}" if PRESET_BRAND_NAME else "")
         _title   = f"35 companies.<br>Same molecule.<br><span class='accent'>{PRESET_COMPANY_NAME} needs<br>to be first.</span>"
         _sub     = (
             f"The patent expires this week. Doctors will prescribe the first "
