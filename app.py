@@ -485,6 +485,9 @@ div[data-testid="stAlert"]              { border-radius: 8px !important; font-fa
 div[data-testid="stExpander"]          { background: #f9f9f9 !important; border: 1px solid rgba(0,0,0,0.08) !important; border-radius: 10px !important; }
 div[data-testid="stExpander"] summary  { font-family: 'Figtree', sans-serif !important; font-weight: 600 !important; color: #222 !important; }
 div[data-testid="stToast"]             { top: 1rem !important; bottom: auto !important; }
+video::-webkit-media-controls-download-button { display: none !important; }
+video::-webkit-media-controls-enclosure { overflow: hidden !important; }
+video::-webkit-media-controls-panel { width: calc(100% + 30px) !important; }
 </style>
 """, unsafe_allow_html=True)
 
