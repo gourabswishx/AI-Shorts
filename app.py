@@ -665,9 +665,9 @@ st.markdown('<div class="section-gap" id="generate"></div>', unsafe_allow_html=T
 
 _display_name = PRESET_BRAND_NAME if PRESET_BRAND_NAME else PRESET_COMPANY_NAME
 if PRESET_COMPANY_NAME:
-    st.markdown(f'<div class="reveal"><span class="s-eyebrow" style="text-transform:none">Generate your MagicReel&#8482;</span><div class="s-title">{_display_name}\'s Launch Success Starts Here.</div><p class="s-sub">Upload your product dossier or pick a sample. Your branded, narrated MagicReel&#8482; is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="reveal"><span class="s-eyebrow" style="text-transform:none">Generate your MagicReel&#8482;</span><div class="s-title">{_display_name}\'s Launch Success Starts Here</div><p class="s-sub"><strong>Upload your product dossier or pick a sample. Your branded, narrated MagicReel&#8482; is ready in under 5 minutes.</strong></p></div>', unsafe_allow_html=True)
 else:
-    st.markdown('<div class="reveal"><span class="s-eyebrow" style="text-transform:none">Generate your MagicReel&#8482;</span><div class="s-title">Generate a MagicReel&#8482; from any drug dossier.</div><p class="s-sub">Upload any pharma PDF. Your clinically verified, narrated MagicReel&#8482; is ready in under 5 minutes.</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="reveal"><span class="s-eyebrow" style="text-transform:none">Generate your MagicReel&#8482;</span><div class="s-title">Generate a MagicReel&#8482; from any drug dossier.</div><p class="s-sub"><strong>Upload any pharma PDF. Your clinically verified, narrated MagicReel&#8482; is ready in under 5 minutes.</strong></p></div>', unsafe_allow_html=True)
 
 if "generating" not in st.session_state:
     st.session_state.generating = False
