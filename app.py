@@ -597,10 +597,10 @@ with hero_right:
         components.html(f"""
         <style>
             body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:5rem; }}
-            .vw {{ position:relative; width:265px; height:470px; border-radius:12px; overflow:hidden; flex-shrink:0; background:#000; }}
+            .vw {{ position:relative; width:275px; height:489px; border-radius:12px; overflow:hidden; flex-shrink:0; background:#000; }}
         </style>
         <div class="vw">{_video_tag}</div>
-        """, height=570)
+        """, height=590)
     else:
         pass
 
