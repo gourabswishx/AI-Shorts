@@ -39,7 +39,7 @@
     "brands": {
       "semastar":   { "name": "Semastar",   "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773944023/Semastar_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_bv9tw6.mp4" },
       "trusema":    { "name": "Trusema",    "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773944348/Trusema_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_ys0fpy.mp4" },
-      "zepsema":    { "name": "Zepsema",    "video_url": "" }
+      "zepsema":    { "name": "Zepsema",    "video_url": "https://res.cloudinary.com/dr5bqmrk3/video/upload/v1773944419/Zepsema_Semaglutide_Dossier_doctor_intro_script_v1_video_subtitled_wjgmdu.mp4" }
     }
   },
   "anthem":    { "name": "Anthem",          "logo": "Anthem_Inc_logo.png", "video_url": "",
