@@ -589,8 +589,14 @@ with hero_left:
 with hero_right:
     if PRESET_VIDEO_URL:
         _is_mp4 = PRESET_VIDEO_URL.endswith(".mp4") or "cloudinary.com" in PRESET_VIDEO_URL
+        if _is_mp4 and "cloudinary.com" in PRESET_VIDEO_URL:
+            # Generate poster thumbnail via Cloudinary transformation (seek to 0s, output jpg)
+            _poster_url = PRESET_VIDEO_URL.replace("/video/upload/", "/video/upload/so_0/").rsplit(".", 1)[0] + ".jpg"
+        else:
+            _poster_url = ""
+        _poster_attr = f' poster="{_poster_url}"' if _poster_url else ""
         _video_tag = (
-            f'<video controls playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:12px;"><source src="{PRESET_VIDEO_URL}" type="video/mp4"></video>'
+            f'<video controls playsinline preload="metadata"{_poster_attr} style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:12px;"><source src="{PRESET_VIDEO_URL}" type="video/mp4"></video>'
             if _is_mp4 else
             f'<iframe src="{PRESET_VIDEO_URL}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>'
         )
