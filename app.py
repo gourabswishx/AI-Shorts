@@ -1024,6 +1024,46 @@ for row_start in range(0, len(DEMO_VIDEOS), 3):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# iOS VIDEO THUMBNAIL FIX
+# Streamlit's st.video() doesn't set preload or poster, so iOS shows a black
+# screen. This script (runs in a same-origin iframe) patches every <video> in
+# the parent page by appending #t=0.001 to the src — iOS WebKit then seeks to
+# 1ms and shows that frame as the thumbnail.
+# ══════════════════════════════════════════════════════════════════════════════
+
+components.html("""
+<script>
+function patchVideos() {
+    try {
+        var videos = window.parent.document.querySelectorAll('video');
+        videos.forEach(function(v) {
+            if (v.hasAttribute('data-ios-patched')) return;
+            v.setAttribute('data-ios-patched', '1');
+            v.setAttribute('preload', 'metadata');
+            // patch <source> children (st.video uses <source src=...>)
+            var sources = v.querySelectorAll('source');
+            if (sources.length > 0) {
+                sources.forEach(function(s) {
+                    if (s.src && s.src.indexOf('#t=') === -1) {
+                        s.src = s.src + '#t=0.001';
+                    }
+                });
+                v.load();
+            } else if (v.src && v.src.indexOf('#t=') === -1) {
+                v.src = v.src + '#t=0.001';
+            }
+        });
+    } catch(e) {}
+}
+// Run immediately, then retry for lazy-rendered videos
+patchVideos();
+setTimeout(patchVideos, 600);
+setTimeout(patchVideos, 1500);
+setTimeout(patchVideos, 3000);
+</script>
+""", height=0)
+
+# ══════════════════════════════════════════════════════════════════════════════
 # FOOTER
 # ══════════════════════════════════════════════════════════════════════════════
 
