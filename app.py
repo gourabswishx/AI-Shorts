@@ -631,7 +631,7 @@ with hero_right:
         _tag2 = _make_video_tag(PRESET_VIDEO_URL_2, _b2_cfg["name"])
         components.html(f"""
         <style>
-            body {{ margin:0; background:transparent; height:100vh; display:flex; justify-content:center; align-items:center; gap:10px; }}
+            body {{ margin:0; padding-top:5rem; background:transparent; height:100vh; box-sizing:border-box; display:flex; justify-content:center; align-items:flex-start; gap:10px; }}
             .vw {{ width:200px; height:355px; flex-shrink:0; }}
         </style>
         {_tag1}
