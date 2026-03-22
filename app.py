@@ -5,6 +5,7 @@ SwishX AI Shorts · Pharma Video Reel Generator
 import os
 import json
 import time
+import uuid
 import base64
 import streamlit as st
 import streamlit.components.v1 as components
@@ -12,6 +13,27 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# ── PostHog ─────────────────────────────────────────────────────────────────
+try:
+    from posthog import Posthog
+    _ph = Posthog(
+        project_api_key="phc_IoQPXTrDAU4YwfXIL4CATNJLe0kjHiUHzkUVbFEiJJE",
+        host="https://us.i.posthog.com",
+    )
+except Exception:
+    _ph = None
+
+def _ph_capture(event: str, props: dict = {}):
+    """Server-side PostHog event. Uses a per-session UUID as distinct_id."""
+    if _ph is None:
+        return
+    try:
+        if "ph_distinct_id" not in st.session_state:
+            st.session_state.ph_distinct_id = str(uuid.uuid4())
+        _ph.capture(st.session_state.ph_distinct_id, event, props)
+    except Exception:
+        pass
 
 try:
     import streamlit as _st
@@ -65,6 +87,22 @@ if _is_multi_brand:
     PRESET_BRAND_NAME = f"{_b1_cfg['name']} & {_b2_cfg['name']}"
     PRESET_VIDEO_URL   = _b1_cfg.get("video_url", "")
     PRESET_VIDEO_URL_2 = _b2_cfg.get("video_url", "")
+
+# ── Track page view (once per session) ──────────────────────────────────────
+if "ph_page_tracked" not in st.session_state:
+    st.session_state.ph_page_tracked = True
+    _page_type = (
+        "multi_brand" if _is_multi_brand else
+        "single_brand" if _company_param and _brand_param else
+        "generic"
+    )
+    _ph_capture("page_viewed", {
+        "page_type":   _page_type,
+        "company":     PRESET_COMPANY_NAME or "none",
+        "brand":       PRESET_BRAND_NAME   or "none",
+        "company_key": _company_param      or "none",
+        "brand_key":   _brand_param        or "none",
+    })
 
 DEMO_VIDEOS = [
     {"file": "AllerDuo_intro.mp4",        "drug": "AllerDuo",    "topic": "Intro",
@@ -964,6 +1002,14 @@ if is_generating:
         )
     progress_bar.progress(1.0)
     total = time.time() - run_start
+    _ph_capture("reel_generated", {
+        "company":     PRESET_COMPANY_NAME or "none",
+        "brand":       PRESET_BRAND_NAME   or "none",
+        "company_key": _company_param      or "none",
+        "brand_key":   _brand_param        or "none",
+        "duration_seconds": round(total, 1),
+        "success": not result.get("error"),
+    })
 
     status_box.markdown(f"""
     <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:3px solid #16a34a;
@@ -1101,6 +1147,43 @@ patchVideos();
 setTimeout(patchVideos, 600);
 setTimeout(patchVideos, 1500);
 setTimeout(patchVideos, 3000);
+</script>
+""", height=0)
+
+# ══════════════════════════════════════════════════════════════════════════════
+# POSTHOG CLIENT-SIDE ANALYTICS
+# Injected into the parent Streamlit window (same-origin iframe allows this).
+# Handles real user identity, sessions, geography, and device info that the
+# Python SDK cannot capture server-side.
+# ══════════════════════════════════════════════════════════════════════════════
+
+_ph_page_props = json.dumps({
+    "page_type":   ("multi_brand" if _is_multi_brand else "single_brand" if _company_param else "generic"),
+    "company":     PRESET_COMPANY_NAME or "none",
+    "brand":       PRESET_BRAND_NAME   or "none",
+    "company_key": _company_param      or "none",
+    "brand_key":   _brand_param        or "none",
+})
+
+components.html(f"""
+<script>
+(function() {{
+    var win = window.parent;
+    if (win.__ph_loaded) return;
+    win.__ph_loaded = true;
+
+    // Inject PostHog snippet into parent window
+    !function(t,e){{var o,n,p,r;e.__SV||(win.posthog=e,e._i=[],e.init=function(i,s,a){{function g(t,e){{var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){{t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){{var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}},u.people.toString=u.people.toString,o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId setPersonPropertiesForFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])}},e.__SV=1}}(win.document,win.posthog||[]);
+
+    win.posthog.init('phc_IoQPXTrDAU4YwfXIL4CATNJLe0kjHiUHzkUVbFEiJJE', {{
+        api_host: 'https://us.i.posthog.com',
+        person_profiles: 'always',
+        capture_pageview: false
+    }});
+
+    // Fire page_viewed with company/brand context
+    win.posthog.capture('page_viewed', {_ph_page_props});
+}})();
 </script>
 """, height=0)
 
