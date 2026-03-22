@@ -53,6 +53,19 @@ _brand_config = _company_config.get("brands", {}).get(_brand_param, {}) if _bran
 PRESET_BRAND_NAME = _brand_config.get("name", "")
 PRESET_VIDEO_URL  = _brand_config.get("video_url", "") or _company_config.get("video_url", "")
 
+# ── Multi-brand detection ────────────────────────────────────────────────────
+# If a company URL is opened without a brand param and has 2+ brands, show
+# a combined page with the first two brands' names and videos.
+_all_brands = list(_company_config.get("brands", {}).items())
+_is_multi_brand = bool(_company_param and not _brand_param and len(_all_brands) >= 2)
+PRESET_VIDEO_URL_2 = ""
+if _is_multi_brand:
+    _b1_key, _b1_cfg = _all_brands[0]
+    _b2_key, _b2_cfg = _all_brands[1]
+    PRESET_BRAND_NAME = f"{_b1_cfg['name']} & {_b2_cfg['name']}"
+    PRESET_VIDEO_URL   = _b1_cfg.get("video_url", "")
+    PRESET_VIDEO_URL_2 = _b2_cfg.get("video_url", "")
+
 DEMO_VIDEOS = [
     {"file": "AllerDuo_intro.mp4",        "drug": "AllerDuo",    "topic": "Intro",
      "composition": "Bilastine + Montelukast",                    "pdf_thumb": "assets/pdf_thumb_AllerDuo.png",    "pages": 9},
@@ -553,13 +566,22 @@ with hero_left:
     if PRESET_COMPANY_NAME:
         _eyebrow = f"SEMAGLUTIDE LAUNCH &nbsp;·&nbsp; {PRESET_COMPANY_NAME.upper()}" + (f" &nbsp;·&nbsp; {PRESET_BRAND_NAME.upper()}" if PRESET_BRAND_NAME else "")
         _title   = f"35 companies.<br>Same molecule.<br><span class='accent'>{PRESET_COMPANY_NAME} needs<br>to be first.</span>"
-        _sub     = (
-            f"Semaglutide patent expires in a few days. Doctors will prescribe the first "
-            f"brand that reaches them with a clear, compelling story, "
-            f"not the one that sends a 5-page PDF. "
-            f"We've built {PRESET_COMPANY_NAME}'s launch content. "
-            f"<strong>Generate your branded MagicReel&#8482; in minutes and push it to HCPs, distributors, and retailers on Day 1.</strong>"
-        )
+        if _is_multi_brand:
+            _sub = (
+                f"Semaglutide patent expires in a few days. Doctors will prescribe the first "
+                f"brand that reaches them with a clear, compelling story, "
+                f"not the one that sends a 5-page PDF. "
+                f"We've built {PRESET_COMPANY_NAME}'s launch content for <strong>{_b1_cfg['name']}</strong> and <strong>{_b2_cfg['name']}</strong>. "
+                f"<strong>Generate your branded MagicReel&#8482; in minutes and push it to HCPs, distributors, and retailers on Day 1.</strong>"
+            )
+        else:
+            _sub = (
+                f"Semaglutide patent expires in a few days. Doctors will prescribe the first "
+                f"brand that reaches them with a clear, compelling story, "
+                f"not the one that sends a 5-page PDF. "
+                f"We've built {PRESET_COMPANY_NAME}'s launch content. "
+                f"<strong>Generate your branded MagicReel&#8482; in minutes and push it to HCPs, distributors, and retailers on Day 1.</strong>"
+            )
     else:
         _eyebrow = "PHARMA CONTENT, REIMAGINED"
         _title   = "From 40-page dossier<br>to 60-second reel.<br><span class='accent'>In minutes.</span>"
@@ -586,26 +608,43 @@ with hero_left:
     </div>
     """, unsafe_allow_html=True)
 
+def _make_video_tag(url, label=""):
+    """Return an HTML video card (phone frame + optional label) for a Cloudinary or MP4 URL."""
+    is_mp4 = url.endswith(".mp4") or "cloudinary.com" in url
+    if is_mp4 and "cloudinary.com" in url:
+        poster_url = url.replace("/video/upload/", "/video/upload/so_0/").rsplit(".", 1)[0] + ".jpg"
+        poster_attr = f' poster="{poster_url}"'
+    else:
+        poster_attr = ""
+    if is_mp4:
+        vid = f'<video controls playsinline preload="metadata"{poster_attr} style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:12px;"><source src="{url}" type="video/mp4"></video>'
+    else:
+        vid = f'<iframe src="{url}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>'
+    label_html = f'<div style="text-align:center;font-family:Figtree,sans-serif;font-size:12px;font-weight:600;color:#555;margin-top:8px;letter-spacing:.03em;">{label}</div>' if label else ""
+    return f'<div style="display:flex;flex-direction:column;align-items:center;"><div class="vw" style="position:relative;border-radius:12px;overflow:hidden;background:#000;">{vid}</div>{label_html}</div>'
+
 with hero_right:
-    if PRESET_VIDEO_URL:
-        _is_mp4 = PRESET_VIDEO_URL.endswith(".mp4") or "cloudinary.com" in PRESET_VIDEO_URL
-        if _is_mp4 and "cloudinary.com" in PRESET_VIDEO_URL:
-            # Generate poster thumbnail via Cloudinary transformation (seek to 0s, output jpg)
-            _poster_url = PRESET_VIDEO_URL.replace("/video/upload/", "/video/upload/so_0/").rsplit(".", 1)[0] + ".jpg"
-        else:
-            _poster_url = ""
-        _poster_attr = f' poster="{_poster_url}"' if _poster_url else ""
-        _video_tag = (
-            f'<video controls playsinline preload="metadata"{_poster_attr} style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:12px;"><source src="{PRESET_VIDEO_URL}" type="video/mp4"></video>'
-            if _is_mp4 else
-            f'<iframe src="{PRESET_VIDEO_URL}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>'
-        )
+    if PRESET_VIDEO_URL and _is_multi_brand and PRESET_VIDEO_URL_2:
+        # Two videos side by side
+        _tag1 = _make_video_tag(PRESET_VIDEO_URL,   _b1_cfg["name"])
+        _tag2 = _make_video_tag(PRESET_VIDEO_URL_2, _b2_cfg["name"])
+        components.html(f"""
+        <style>
+            body {{ margin:0; background:transparent; display:flex; justify-content:center; align-items:flex-start; padding-top:3rem; gap:16px; }}
+            .vw {{ width:210px; height:373px; flex-shrink:0; }}
+        </style>
+        {_tag1}
+        {_tag2}
+        """, height=460)
+    elif PRESET_VIDEO_URL:
+        # Single video
+        _tag = _make_video_tag(PRESET_VIDEO_URL)
         components.html(f"""
         <style>
             body {{ margin:0; background:transparent; display:flex; justify-content:center; padding-top:5rem; }}
-            .vw {{ position:relative; width:275px; height:489px; border-radius:12px; overflow:hidden; flex-shrink:0; background:#000; }}
+            .vw {{ width:275px; height:489px; flex-shrink:0; }}
         </style>
-        <div class="vw">{_video_tag}</div>
+        {_tag}
         """, height=590)
     else:
         pass
