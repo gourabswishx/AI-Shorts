@@ -617,11 +617,12 @@ def _make_video_tag(url, label=""):
     else:
         poster_attr = ""
     if is_mp4:
-        vid = f'<video controls playsinline preload="metadata"{poster_attr} style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:12px;"><source src="{url}" type="video/mp4"></video>'
+        vid = f'<video controls playsinline preload="metadata"{poster_attr} style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;"><source src="{url}" type="video/mp4"></video>'
     else:
         vid = f'<iframe src="{url}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>'
     label_html = f'<div style="text-align:center;font-family:Figtree,sans-serif;font-size:12px;font-weight:600;color:#555;margin-top:8px;letter-spacing:.03em;">{label}</div>' if label else ""
-    return f'<div style="display:flex;flex-direction:column;align-items:center;"><div class="vw" style="position:relative;border-radius:12px;overflow:hidden;background:#000;">{vid}</div>{label_html}</div>'
+    # transform:translateZ(0) forces a GPU layer so overflow:hidden actually clips the video corners
+    return f'<div style="display:flex;flex-direction:column;align-items:center;"><div class="vw" style="position:relative;border-radius:12px;overflow:hidden;background:#000;transform:translateZ(0);-webkit-transform:translateZ(0);">{vid}</div>{label_html}</div>'
 
 with hero_right:
     if PRESET_VIDEO_URL and _is_multi_brand and PRESET_VIDEO_URL_2:
@@ -631,11 +632,11 @@ with hero_right:
         components.html(f"""
         <style>
             body {{ margin:0; background:transparent; display:flex; justify-content:center; align-items:flex-start; padding-top:3rem; gap:16px; }}
-            .vw {{ width:210px; height:373px; flex-shrink:0; }}
+            .vw {{ width:252px; height:448px; flex-shrink:0; }}
         </style>
         {_tag1}
         {_tag2}
-        """, height=460)
+        """, height=550)
     elif PRESET_VIDEO_URL:
         # Single video
         _tag = _make_video_tag(PRESET_VIDEO_URL)
