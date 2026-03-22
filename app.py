@@ -617,7 +617,7 @@ def _make_video_tag(url, label=""):
     else:
         poster_attr = ""
     if is_mp4:
-        vid = f'<video controls playsinline preload="metadata"{poster_attr} style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;"><source src="{url}" type="video/mp4"></video>'
+        vid = f'<video controls playsinline preload="metadata"{poster_attr} style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;"><source src="{url}" type="video/mp4"></video>'
     else:
         vid = f'<iframe src="{url}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>'
     label_html = f'<div style="text-align:center;font-family:Figtree,sans-serif;font-size:12px;font-weight:600;color:#555;margin-top:8px;letter-spacing:.03em;">{label}</div>' if label else ""
@@ -631,12 +631,12 @@ with hero_right:
         _tag2 = _make_video_tag(PRESET_VIDEO_URL_2, _b2_cfg["name"])
         components.html(f"""
         <style>
-            body {{ margin:0; background:transparent; display:flex; justify-content:center; align-items:flex-start; padding-top:3rem; gap:16px; }}
-            .vw {{ width:252px; height:448px; flex-shrink:0; }}
+            body {{ margin:0; background:transparent; display:flex; justify-content:center; align-items:flex-start; padding-top:3rem; gap:12px; }}
+            .vw {{ width:220px; height:391px; flex-shrink:0; }}
         </style>
         {_tag1}
         {_tag2}
-        """, height=550)
+        """, height=490)
     elif PRESET_VIDEO_URL:
         # Single video
         _tag = _make_video_tag(PRESET_VIDEO_URL)
