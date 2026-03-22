@@ -622,7 +622,7 @@ def _make_video_tag(url, label=""):
         vid = f'<iframe src="{url}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>'
     label_html = f'<div style="text-align:center;font-family:Figtree,sans-serif;font-size:12px;font-weight:600;color:#555;margin-top:8px;letter-spacing:.03em;">{label}</div>' if label else ""
     # transform:translateZ(0) forces a GPU layer so overflow:hidden actually clips the video corners
-    return f'<div style="display:flex;flex-direction:column;align-items:center;"><div class="vw" style="position:relative;border-radius:12px;overflow:hidden;background:#000;transform:translateZ(0);-webkit-transform:translateZ(0);">{vid}</div>{label_html}</div>'
+    return f'<div class="vid-wrap"><div class="vw" style="position:relative;border-radius:12px;overflow:hidden;background:#000;transform:translateZ(0);-webkit-transform:translateZ(0);">{vid}</div>{label_html}</div>'
 
 with hero_right:
     if PRESET_VIDEO_URL and _is_multi_brand and PRESET_VIDEO_URL_2:
@@ -631,8 +631,9 @@ with hero_right:
         _tag2 = _make_video_tag(PRESET_VIDEO_URL_2, _b2_cfg["name"])
         components.html(f"""
         <style>
-            body {{ margin:0; padding-top:9rem; background:transparent; display:flex; justify-content:flex-start; align-items:flex-start; gap:10px; }}
-            .vw {{ width:225px; height:400px; flex-shrink:0; }}
+            body {{ margin:0; padding:9rem 6px 0 6px; box-sizing:border-box; width:100%; background:transparent; display:flex; justify-content:center; align-items:flex-start; gap:10px; }}
+            .vid-wrap {{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center; }}
+            .vw {{ width:100%; aspect-ratio:9/16; }}
         </style>
         {_tag1}
         {_tag2}
