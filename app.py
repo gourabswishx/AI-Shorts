@@ -631,12 +631,12 @@ with hero_right:
         _tag2 = _make_video_tag(PRESET_VIDEO_URL_2, _b2_cfg["name"])
         components.html(f"""
         <style>
-            body {{ margin:0; padding-top:7rem; background:transparent; display:flex; justify-content:flex-start; align-items:flex-start; gap:10px; }}
-            .vw {{ width:200px; height:355px; flex-shrink:0; }}
+            body {{ margin:0; padding-top:9rem; background:transparent; display:flex; justify-content:flex-start; align-items:flex-start; gap:10px; }}
+            .vw {{ width:225px; height:400px; flex-shrink:0; }}
         </style>
         {_tag1}
         {_tag2}
-        """, height=620)
+        """, height=680)
     elif PRESET_VIDEO_URL:
         # Single video
         _tag = _make_video_tag(PRESET_VIDEO_URL)
