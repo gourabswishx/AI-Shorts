@@ -15,12 +15,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ── PostHog ─────────────────────────────────────────────────────────────────
+_POSTHOG_KEY = (
+    os.environ.get("POSTHOG_API_KEY")
+    or (st.secrets.get("POSTHOG_API_KEY") if hasattr(st, "secrets") else None)
+    or ""
+)
 try:
     from posthog import Posthog
-    _ph = Posthog(
-        project_api_key="phc_IoQPXTrDAU4YwfXIL4CATNJLe0kjHiUHzkUVbFEiJJE",
-        host="https://us.i.posthog.com",
-    )
+    _ph = Posthog(project_api_key=_POSTHOG_KEY, host="https://us.i.posthog.com") if _POSTHOG_KEY else None
 except Exception:
     _ph = None
 
@@ -1171,7 +1173,7 @@ components.html(f"""
 <head>
 <script>
     !function(t,e){{var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){{function g(t,e){{var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){{t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){{var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}},u.people.toString=u.people.toString,o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId setPersonPropertiesForFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])}},e.__SV=1}}(document,window.posthog||[]);
-    posthog.init('phc_IoQPXTrDAU4YwfXIL4CATNJLe0kjHiUHzkUVbFEiJJE', {{
+    posthog.init('{_POSTHOG_KEY}', {{
         api_host: 'https://us.i.posthog.com',
         person_profiles: 'always',
         capture_pageview: true
