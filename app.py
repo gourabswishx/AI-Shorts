@@ -78,15 +78,23 @@ PRESET_BRAND_NAME = _brand_config.get("name", "")
 PRESET_VIDEO_URL  = _brand_config.get("video_url", "") or _company_config.get("video_url", "")
 
 # ── Multi-brand detection ────────────────────────────────────────────────────
-# If a company URL is opened without a brand param and has 2+ brands, show
-# a combined page with the first two brands' names and videos.
-_all_brands = list(_company_config.get("brands", {}).items())
-_is_multi_brand = bool(_company_param and not _brand_param and len(_all_brands) >= 2)
+# Uses explicit "dual_brands" field from companies.json (two brand keys from CSV).
+# Only activates if both brands have video URLs. Falls back to single-brand view.
+_dual_keys   = _company_config.get("dual_brands", [])
+_brands_dict = _company_config.get("brands", {})
 PRESET_VIDEO_URL_2 = ""
+_b1_cfg: dict = {}
+_b2_cfg: dict = {}
+
+if _company_param and not _brand_param and len(_dual_keys) == 2:
+    _b1_cfg = _brands_dict.get(_dual_keys[0], {})
+    _b2_cfg = _brands_dict.get(_dual_keys[1], {})
+    _is_multi_brand = bool(_b1_cfg.get("video_url") and _b2_cfg.get("video_url"))
+else:
+    _is_multi_brand = False
+
 if _is_multi_brand:
-    _b1_key, _b1_cfg = _all_brands[0]
-    _b2_key, _b2_cfg = _all_brands[1]
-    PRESET_BRAND_NAME = f"{_b1_cfg['name']} & {_b2_cfg['name']}"
+    PRESET_BRAND_NAME  = f"{_b1_cfg['name']} & {_b2_cfg['name']}"
     PRESET_VIDEO_URL   = _b1_cfg.get("video_url", "")
     PRESET_VIDEO_URL_2 = _b2_cfg.get("video_url", "")
 
